@@ -101,7 +101,7 @@ Some things the system has to get right that aren't obvious from a pure ML frami
 
 ## Stack
 
-Python · scikit-learn · Anthropic API · SQLite · pydantic · FastAPI · pytest
+Python · scikit-learn · Gemini API · SQLite · pydantic · FastAPI · pytest
 
 ## Roadmap
 
