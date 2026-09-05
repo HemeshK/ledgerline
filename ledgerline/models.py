@@ -78,6 +78,17 @@ class ErrorRow(BaseModel):
     undecidable: bool = False
 
 
+class FlaggedRow(BaseModel):
+    """A row sent to the exception queue, with the reason a human acts on."""
+
+    txn_id: str
+    narration: str
+    best_guess: Optional[str] = None
+    confidence: float
+    method: Method
+    reason: str
+
+
 class RunReport(BaseModel):
     """Metrics for one pass over a batch.
 
@@ -98,5 +109,10 @@ class RunReport(BaseModel):
     wrongly_posted_undecidable: int = 0
     per_method: list[MethodStats] = Field(default_factory=list)
     errors: list[ErrorRow] = Field(default_factory=list)
+    flagged_rows: list[FlaggedRow] = Field(default_factory=list)
     llm_calls: int = 0
+    # Payee memory grows as humans correct rows, so runs stop being identical
+    # once it is warm. Recording its size makes that visible in the report.
+    payee_memory_entries: int = 0
+    payee_memory_warm: bool = False
     notes: list[str] = Field(default_factory=list)

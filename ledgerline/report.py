@@ -13,7 +13,16 @@ from typing import Optional
 from rich.console import Console
 from rich.table import Table
 
-from .models import ErrorRow, LedgerEntry, MethodStats, RunReport, Transaction
+from .models import (
+    ErrorRow,
+    FlaggedRow,
+    LedgerEntry,
+    MethodStats,
+    RunReport,
+    Transaction,
+)
+
+FLAGGED_PREVIEW = 8
 
 
 def build_report(
@@ -21,6 +30,7 @@ def build_report(
     entries: list[LedgerEntry],
     truth: dict[str, Optional[str]],
     notes: Optional[list[str]] = None,
+    payee_memory_entries: int = 0,
 ) -> RunReport:
     narrations = {t.txn_id: t.narration for t in transactions}
 
@@ -34,6 +44,7 @@ def build_report(
     correct_refusals = 0
     wrongly_posted_undecidable = 0
     errors: list[ErrorRow] = []
+    flagged_rows: list[FlaggedRow] = []
     per_method: OrderedDict[str, dict] = OrderedDict()
 
     def bucket(method: str) -> dict:
@@ -87,6 +98,16 @@ def build_report(
         else:
             flagged += 1
             stats["flagged"] += 1
+            flagged_rows.append(
+                FlaggedRow(
+                    txn_id=e.txn_id,
+                    narration=narrations.get(e.txn_id, ""),
+                    best_guess=e.account_code,
+                    confidence=e.confidence,
+                    method=e.method,
+                    reason=e.reason,
+                )
+            )
             if is_undecidable:
                 correct_refusals += 1
 
@@ -115,6 +136,9 @@ def build_report(
         wrongly_posted_undecidable=wrongly_posted_undecidable,
         per_method=method_stats,
         errors=errors,
+        flagged_rows=flagged_rows,
+        payee_memory_entries=payee_memory_entries,
+        payee_memory_warm=payee_memory_entries > 0,
         notes=notes or [],
     )
 
@@ -148,6 +172,11 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
             "undecidable rows wrongly posted", str(report.wrongly_posted_undecidable)
         )
     summary.add_row("llm calls", str(report.llm_calls))
+    memory_state = "warm" if report.payee_memory_warm else "empty"
+    summary.add_row(
+        "payee memory at start",
+        f"{memory_state} ({report.payee_memory_entries} entries)",
+    )
 
     console.print(summary)
     console.print()
@@ -193,6 +222,24 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
                 e.method,
             )
         console.print(errs)
+        console.print()
+
+    if report.flagged_rows:
+        shown = report.flagged_rows[:FLAGGED_PREVIEW]
+        queue = Table(
+            title=(
+                f"Exception queue ({len(report.flagged_rows)} rows, "
+                f"showing {len(shown)})"
+            ),
+            title_justify="left",
+            show_edge=False,
+        )
+        queue.add_column("txn")
+        queue.add_column("narration", max_width=40, overflow="fold")
+        queue.add_column("why it was not posted", max_width=64, overflow="fold")
+        for f in shown:
+            queue.add_row(f.txn_id, f.narration, f.reason)
+        console.print(queue)
         console.print()
 
     for note in report.notes:

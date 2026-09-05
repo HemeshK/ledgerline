@@ -74,6 +74,21 @@ def save_entries(conn: sqlite3.Connection, entries: list[LedgerEntry]) -> None:
     conn.commit()
 
 
+def count_payees(conn: sqlite3.Connection) -> int:
+    return conn.execute("SELECT COUNT(*) FROM payee_memory").fetchone()[0]
+
+
+def lookup_payee(
+    conn: sqlite3.Connection, counterparty: str
+) -> Optional[tuple[str, int]]:
+    """Returns (account_code, times_confirmed) for a known counterparty."""
+    row = conn.execute(
+        "SELECT account_code, count FROM payee_memory WHERE counterparty = ?",
+        (counterparty,),
+    ).fetchone()
+    return (row["account_code"], row["count"]) if row else None
+
+
 def load_entries(
     conn: sqlite3.Connection, status: Optional[str] = None
 ) -> list[LedgerEntry]:

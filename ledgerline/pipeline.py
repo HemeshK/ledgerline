@@ -16,25 +16,6 @@ class Tier(Protocol):
     def classify(self, txn: Transaction) -> ClassificationResult: ...
 
 
-class StubTier:
-    """Placeholder standing in for the real tiers. Returns a fixed account at a
-    confidence below any sane threshold, so every row falls through to review.
-    Replaced by the rule, classifier and LLM tiers in phases 3-5."""
-
-    name = "classifier"
-
-    def classify(self, txn: Transaction) -> ClassificationResult:
-        return ClassificationResult(
-            account_code="6800",
-            confidence=0.1,
-            method="classifier",
-            reason=(
-                "stub classifier: no classification logic implemented yet, "
-                "so every row is sent to review"
-            ),
-        )
-
-
 def run_pipeline(
     transactions: list[Transaction], tiers: list[Tier], threshold: float
 ) -> list[LedgerEntry]:

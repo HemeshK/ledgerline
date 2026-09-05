@@ -2,7 +2,8 @@ import typer
 from rich.console import Console
 
 from . import config, data_loader, report as report_mod, storage
-from .pipeline import StubTier, run_pipeline
+from .pipeline import run_pipeline
+from .rules import RuleTier
 
 app = typer.Typer(add_completion=False)
 
@@ -19,12 +20,15 @@ def run() -> None:
 
     batch = data_loader.load_batch(config.BATCH_PATH)
     truth = data_loader.load_truth(config.TRUTH_PATH)
-    data_loader.load_accounts(config.ACCOUNTS_PATH)
+    accounts = data_loader.load_accounts(config.ACCOUNTS_PATH)
 
     conn = storage.connect(config.DB_PATH)
     storage.init_db(conn)
 
-    tiers = [StubTier()]
+    # Read before the run: corrections seed this, so it changes between runs.
+    payee_entries = storage.count_payees(conn)
+
+    tiers = [RuleTier(accounts, conn)]
     entries = run_pipeline(batch.transactions, tiers, config.CONFIDENCE_THRESHOLD)
     storage.save_entries(conn, entries)
 
@@ -33,9 +37,10 @@ def run() -> None:
         entries,
         truth,
         notes=[
-            "tiers 1-3 are not built yet; a stub classifier returns a fixed "
-            "account at 0.1 confidence, so every row is flagged by design",
+            "only tier 1 (rules) is built; tiers 2-3 land in later phases, so "
+            "everything rules cannot resolve stays in the exception queue",
         ],
+        payee_memory_entries=payee_entries,
     )
     report_mod.render(result, console)
     report_mod.write_json(result, config.REPORT_PATH)
