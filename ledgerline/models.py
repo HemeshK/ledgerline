@@ -61,6 +61,9 @@ class LedgerEntry(BaseModel):
     reason: str
     status: Status
     line_type: LineType = "primary"
+    original_account_code: Optional[str] = None
+    original_method: Optional[Method] = None
+    original_confidence: Optional[float] = None
 
 
 class MethodStats(BaseModel):

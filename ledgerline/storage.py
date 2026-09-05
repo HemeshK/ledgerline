@@ -19,7 +19,10 @@ CREATE TABLE IF NOT EXISTS ledger_entries (
     method       TEXT NOT NULL,
     reason       TEXT NOT NULL,
     status       TEXT NOT NULL,
-    line_type    TEXT NOT NULL DEFAULT 'primary'
+    line_type    TEXT NOT NULL DEFAULT 'primary',
+    original_account_code TEXT,
+    original_method       TEXT,
+    original_confidence   REAL
 );
 CREATE INDEX IF NOT EXISTS idx_ledger_txn ON ledger_entries(txn_id);
 CREATE INDEX IF NOT EXISTS idx_ledger_status ON ledger_entries(status);
@@ -92,6 +95,69 @@ def lookup_payee(
     return (row["account_code"], row["count"]) if row else None
 
 
+def remember_payee(
+    conn: sqlite3.Connection, counterparty: str, account_code: str
+) -> None:
+    """Records a human-verified counterparty mapping. This is the feedback
+    loop: tier 1 checks payee memory before anything else, so a correction
+    here changes what the next run does with that counterparty."""
+    row = conn.execute(
+        "SELECT account_code, count FROM payee_memory WHERE counterparty = ?",
+        (counterparty,),
+    ).fetchone()
+    if row and row["account_code"] == account_code:
+        conn.execute(
+            "UPDATE payee_memory SET count = count + 1 WHERE counterparty = ?",
+            (counterparty,),
+        )
+    else:
+        # A changed mapping resets the count: the old evidence is now wrong.
+        conn.execute(
+            """INSERT OR REPLACE INTO payee_memory
+               (counterparty, account_code, count) VALUES (?, ?, 1)""",
+            (counterparty, account_code),
+        )
+    conn.commit()
+
+
+def get_primary_entry(
+    conn: sqlite3.Connection, txn_id: str
+) -> Optional[sqlite3.Row]:
+    return conn.execute(
+        """SELECT * FROM ledger_entries
+           WHERE txn_id = ? AND line_type = 'primary' ORDER BY id LIMIT 1""",
+        (txn_id,),
+    ).fetchone()
+
+
+def resolve_entry(
+    conn: sqlite3.Connection,
+    txn_id: str,
+    account_code: str,
+    status: str,
+    original: Optional[tuple[Optional[str], str, float]] = None,
+) -> None:
+    """Applies a human decision to the primary line. `original` is recorded
+    once, on the first change, so the screen can show what was predicted
+    before the human intervened."""
+    if original is not None:
+        conn.execute(
+            """UPDATE ledger_entries
+               SET account_code = ?, status = ?,
+                   original_account_code = ?, original_method = ?,
+                   original_confidence = ?
+               WHERE txn_id = ? AND line_type = 'primary'""",
+            (account_code, status, *original, txn_id),
+        )
+    else:
+        conn.execute(
+            """UPDATE ledger_entries SET account_code = ?, status = ?
+               WHERE txn_id = ? AND line_type = 'primary'""",
+            (account_code, status, txn_id),
+        )
+    conn.commit()
+
+
 def cache_get(conn: sqlite3.Connection, key: str) -> Optional[str]:
     row = conn.execute(
         "SELECT response FROM llm_cache WHERE narration_hash = ?", (key,)
@@ -126,6 +192,9 @@ def load_entries(
             reason=r["reason"],
             status=r["status"],
             line_type=r["line_type"],
+            original_account_code=r["original_account_code"],
+            original_method=r["original_method"],
+            original_confidence=r["original_confidence"],
         )
         for r in rows
     ]

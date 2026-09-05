@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Transaction Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBFBF9; --surface:#FFFFFF; --ink:#14181F; --muted:#6B7280;
+  --rule:#E4E5E1; --posted:#0F766E; --flag:#B45309; --flagbg:#FDF6EC;
+  --hover:rgba(20,24,31,.035); --active:rgba(20,24,31,.06);
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono","SF Mono",Menlo,Monaco,"Courier New",monospace;
+  --fast:150ms cubic-bezier(.25,.46,.45,.94);
+}
+/* Dark mode is designed, not inverted: levels get more separation and the
+   accents get brighter to hold up against a dark ground. */
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#141619; --surface:#1A1D22; --ink:#E8EAE6; --muted:#98A0AC;
+    --rule:#2A2E35; --posted:#3BBFAF; --flag:#E0A13E; --flagbg:#221A0F;
+    --hover:rgba(255,255,255,.04); --active:rgba(255,255,255,.07);
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper); color:var(--ink); font-family:var(--sans);
+  font-size:13px; line-height:18px; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1560px;margin:0 auto;padding:20px 20px 64px}
+
+header{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-bottom:16px}
+h1{font-size:17px;line-height:22px;font-weight:600;letter-spacing:-.01em;margin:0}
+.stats{display:flex;gap:24px;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.stats b{font-weight:500;color:var(--ink);font-variant-numeric:tabular-nums}
+
+.toolbar{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:8px 0 12px;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  position:sticky;top:0;background:var(--paper);z-index:5;
+}
+.filters{display:flex;gap:4px}
+.filters button{
+  font-family:var(--sans);font-size:12px;height:28px;padding:0 12px;
+  background:transparent;color:var(--muted);border:1px solid transparent;
+  border-radius:4px;cursor:pointer;transition:background var(--fast),color var(--fast);
+}
+.filters button:hover{background:var(--hover);color:var(--ink)}
+.filters button[aria-pressed="true"]{background:var(--active);color:var(--ink);font-weight:500}
+.filters .n{font-family:var(--mono);font-variant-numeric:tabular-nums;opacity:.65;margin-left:6px}
+input[type=search],input[type=text]{
+  font-family:var(--sans);font-size:12px;height:28px;padding:0 10px;width:260px;
+  background:var(--surface);color:var(--ink);border:1px solid var(--rule);border-radius:4px;
+}
+input:focus-visible,button:focus-visible,[tabindex]:focus-visible{
+  outline:2px solid var(--posted);outline-offset:1px
+}
+
+table{width:100%;border-collapse:collapse;background:var(--surface)}
+thead th{
+  font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);
+  font-weight:500;text-align:left;padding:10px 10px;border-bottom:1px solid var(--rule);
+  position:sticky;top:49px;background:var(--surface);z-index:4;
+}
+th.num,td.num{text-align:right}
+tbody tr.row{border-bottom:1px solid var(--rule);cursor:pointer;transition:background var(--fast)}
+tbody tr.row:hover{background:var(--hover)}
+tbody tr.row.flagged{background:var(--flagbg)}
+tbody tr.row.flagged:hover{filter:brightness(.985)}
+tbody tr.row.open{background:var(--active)}
+td{padding:9px 10px;vertical-align:top}
+.mono{font-family:var(--mono);font-size:13px}
+.amt{font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.date{font-family:var(--mono);color:var(--muted);white-space:nowrap;font-size:12px}
+.narr{font-family:var(--mono);font-size:12px;line-height:17px;word-break:break-word;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* The reason is what a reviewer actually reads, so it gets the widest column
+   and two full lines rather than an ellipsis after four words. */
+.reason{color:var(--muted);line-height:17px;font-size:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.acct{font-family:var(--mono);white-space:nowrap}
+.acct .nm{color:var(--muted);font-family:var(--sans);font-size:11px;display:block;line-height:15px}
+.via{font-size:11px;color:var(--muted);white-space:nowrap}
+.st{font-size:12px;white-space:nowrap}
+.st.posted{color:var(--posted)}
+.st.flagged{color:var(--flag)}
+.st.corrected{color:var(--ink);font-weight:500}
+
+.conf{display:flex;align-items:center;gap:8px;justify-content:flex-end}
+.conf .v{font-family:var(--mono);font-variant-numeric:tabular-nums;font-size:12px}
+.bar{width:40px;height:3px;background:var(--rule);border-radius:2px;overflow:hidden;flex:none}
+.bar i{display:block;height:100%;background:var(--posted)}
+tr.flagged .bar i{background:var(--flag)}
+
+/* Actions stay hidden until hover or expansion, so they never collide with
+   the data in a dense row. */
+.acts{display:flex;gap:6px;justify-content:flex-end;opacity:0;transition:opacity var(--fast)}
+tr.row:hover .acts,tr.row.open .acts{opacity:1}
+.acts button{
+  font-family:var(--sans);font-size:11px;height:24px;padding:0 9px;background:var(--surface);
+  color:var(--ink);border:1px solid var(--rule);border-radius:4px;cursor:pointer;
+  transition:background var(--fast),border-color var(--fast);white-space:nowrap;
+}
+.acts button:hover{background:var(--hover);border-color:var(--muted)}
+
+tr.detail>td{padding:0;border-bottom:1px solid var(--rule);background:var(--surface)}
+.panel{padding:14px 10px 18px;display:grid;gap:14px}
+.field{display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:start}
+.label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;padding-top:1px}
+.val{font-size:12px;line-height:18px}
+.val.mono{font-family:var(--mono)}
+.split{border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);width:100%;border-collapse:collapse}
+.split td{padding:6px 0;font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.split td:last-child{text-align:right}
+.split tr:not(:last-child) td{border-bottom:1px solid var(--rule)}
+.prov{font-size:12px;line-height:18px}
+.prov .was{color:var(--muted);text-decoration:line-through}
+.prov .now{font-family:var(--mono);color:var(--posted);font-weight:500}
+
+.correct{display:flex;gap:6px;align-items:flex-start;flex-wrap:wrap}
+.combo{position:relative;width:320px}
+.combo ul{
+  position:absolute;z-index:20;left:0;right:0;top:30px;margin:0;padding:4px;list-style:none;
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;max-height:220px;
+  overflow:auto;box-shadow:0 4px 16px rgba(0,0,0,.10);
+}
+.combo li{padding:5px 8px;border-radius:4px;cursor:pointer;font-family:var(--mono);font-size:12px}
+.combo li .nm{font-family:var(--sans);color:var(--muted);font-size:11px;margin-left:8px}
+.combo li[aria-selected="true"],.combo li:hover{background:var(--active)}
+.primary{background:var(--posted)!important;color:#fff!important;border-color:var(--posted)!important}
+.primary:hover{filter:brightness(1.08)}
+
+.empty{padding:64px 0;text-align:center;color:var(--muted);font-size:13px}
+.toast{
+  position:fixed;right:20px;bottom:20px;background:var(--ink);color:var(--paper);
+  font-size:12px;padding:9px 13px;border-radius:4px;opacity:0;transform:translateY(6px);
+  transition:opacity var(--fast),transform var(--fast);pointer-events:none;max-width:420px;
+}
+.toast.on{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Transaction Review</h1>
+    <div class="stats">
+      <span><b id="s-all">0</b> rows</span>
+      <span><b id="s-flag">0</b> flagged</span>
+      <span><b id="s-post">0</b> posted</span>
+      <span><b id="s-corr">0</b> corrected</span>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <div class="filters" id="filters"></div>
+    <input type="search" id="q" placeholder="Search narration, account, reason" aria-label="Search">
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width:88px">Date</th>
+        <th class="num" style="width:104px">Amount</th>
+        <th style="width:23%">Narration</th>
+        <th style="width:34%">Reason</th>
+        <th style="width:132px">Account</th>
+        <th class="num" style="width:96px">Conf</th>
+        <th style="width:74px">Via</th>
+        <th style="width:82px">Status</th>
+        <th style="width:150px"></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+  <div class="empty" id="empty" hidden></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const FILTERS=[["all","All"],["flagged","Flagged"],["posted","Posted"],["corrected","Corrected"]];
+// Defaults to All, not Flagged: a confidently wrong posted row (a printer
+// booked to office supplies) never reaches the flagged queue, and those are
+// exactly the rows a reviewer most needs to catch.
+let state={filter:"all",q:"",open:null,entries:[],counts:{},accounts:[]};
+
+const $=s=>document.querySelector(s);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const money=v=>Number(v).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+const VIA={rule:"Rule",classifier:"Classifier",llm:"LLM"};
+
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("on");
+  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove("on"),2600);}
+
+async function load(){
+  const p=new URLSearchParams();
+  if(state.filter!=="all")p.set("status",state.filter);
+  if(state.q)p.set("q",state.q);
+  const r=await fetch("/api/entries?"+p);
+  const d=await r.json();
+  state.entries=d.entries;state.counts=d.counts;
+  render();
+}
+
+function renderFilters(){
+  $("#filters").innerHTML=FILTERS.map(([k,l])=>
+    `<button data-f="${k}" aria-pressed="${state.filter===k}">${l}<span class="n">${state.counts[k]??0}</span></button>`
+  ).join("");
+}
+
+function render(){
+  const c=state.counts;
+  $("#s-all").textContent=c.all??0; $("#s-flag").textContent=c.flagged??0;
+  $("#s-post").textContent=c.posted??0; $("#s-corr").textContent=c.corrected??0;
+  renderFilters();
+
+  const tb=$("#rows"),emp=$("#empty");
+  if(!state.entries.length){
+    tb.innerHTML="";emp.hidden=false;
+    emp.textContent = state.q ? "No rows match that search."
+      : state.filter==="flagged" ? "Nothing needs review." : "No rows here.";
+    return;
+  }
+  emp.hidden=true;
+  tb.innerHTML=state.entries.map(rowHtml).join("");
+}
+
+function rowHtml(e){
+  const open=state.open===e.txn_id;
+  const conf=Math.round((e.confidence||0)*100);
+  const acct=e.account_code
+    ? `<span>${esc(e.account_code)}</span><span class="nm">${esc(e.account_name||"")}</span>`
+    : `<span style="color:var(--muted)">unassigned</span>`;
+  let html=`<tr class="row ${e.status==="flagged"?"flagged":""} ${open?"open":""}" data-id="${esc(e.txn_id)}" tabindex="0">
+    <td class="date">${esc(e.date||"")}</td>
+    <td class="num amt">${money(e.amount)}</td>
+    <td><div class="narr">${esc(e.narration)}</div></td>
+    <td><div class="reason">${esc(e.reason)}</div></td>
+    <td class="acct">${acct}</td>
+    <td class="num"><div class="conf"><span class="v">${conf}%</span><span class="bar"><i style="width:${conf}%"></i></span></div></td>
+    <td class="via">${esc(VIA[e.method]||e.method)}</td>
+    <td class="st ${esc(e.status)}">${esc(e.status)}</td>
+    <td><div class="acts">
+      ${e.account_code?`<button data-act="confirm" data-id="${esc(e.txn_id)}">Confirm</button>`:""}
+      <button data-act="expand" data-id="${esc(e.txn_id)}">${open?"Close":"Correct"}</button>
+    </div></td>
+  </tr>`;
+  if(open)html+=detailHtml(e);
+  return html;
+}
+
+function detailHtml(e){
+  const rows=[];
+  rows.push(field("Narration",`<div class="val mono">${esc(e.narration)}</div>`));
+  if(e.counterparty)rows.push(field("Counterparty",`<div class="val mono">${esc(e.counterparty)}</div>`));
+  rows.push(field("Reason",`<div class="val">${esc(e.reason)}</div>`));
+
+  if(e.tax_lines&&e.tax_lines.length){
+    const base=(Number(e.amount)).toFixed(2);
+    const total=(Number(e.amount)+e.tax_lines.reduce((a,l)=>a+Number(l.amount),0)).toFixed(2);
+    rows.push(field("Tax split",`<table class="split">
+      <tr><td>${esc(e.account_code||"")} ${esc(e.account_name||"")}</td><td>${money(base)}</td></tr>
+      ${e.tax_lines.map(l=>`<tr><td>${esc(l.account_code)} ${esc(l.account_name||"")}</td><td>${money(l.amount)}</td></tr>`).join("")}
+      <tr><td><b>Total charged</b></td><td><b>${money(total)}</b></td></tr>
+    </table>`));
+  }
+
+  if(e.original_account_code&&e.original_account_code!==e.account_code){
+    const oc=Math.round((e.original_confidence||0)*100);
+    rows.push(field("Change",`<div class="prov">predicted
+      <span class="was">${esc(e.original_account_code)} ${esc(e.original_account_name||"")}</span>
+      (${esc(VIA[e.original_method]||e.original_method||"")}, ${oc}%)
+      &rarr; corrected to <span class="now">${esc(e.account_code)} ${esc(e.account_name||"")}</span></div>`));
+  }
+
+  rows.push(field("Correct to",`<div class="correct">
+    <div class="combo">
+      <input type="text" id="combo-in" autocomplete="off" placeholder="Search account code or name"
+             aria-label="Account" data-id="${esc(e.txn_id)}">
+      <ul id="combo-list" hidden></ul>
+    </div>
+    <button class="primary" id="save-btn" data-id="${esc(e.txn_id)}" style="height:28px;padding:0 12px;border-radius:4px;border:1px solid var(--posted);cursor:pointer;font-size:12px">Save correction</button>
+  </div>`));
+
+  return `<tr class="detail"><td colspan="9"><div class="panel">${rows.join("")}</div></td></tr>`;
+}
+const field=(l,v)=>`<div class="field"><div class="label">${l}</div>${v}</div>`;
+
+/* ---- combobox ---- */
+let comboSel=null,comboIdx=-1;
+function comboMatches(q){
+  q=(q||"").toLowerCase().trim();
+  const a=state.accounts;
+  if(!q)return a.slice(0,60);
+  return a.filter(x=>x.code.includes(q)||x.name.toLowerCase().includes(q)).slice(0,60);
+}
+function openCombo(){
+  const inp=$("#combo-in"),list=$("#combo-list");if(!inp)return;
+  const items=comboMatches(inp.value);
+  comboIdx=items.length?0:-1;
+  list.innerHTML=items.map((x,i)=>
+    `<li role="option" data-code="${x.code}" aria-selected="${i===comboIdx}">${x.code}<span class="nm">${esc(x.name)}</span></li>`).join("");
+  list.hidden=!items.length;
+}
+function pick(code){
+  comboSel=code;const inp=$("#combo-in");
+  const a=state.accounts.find(x=>x.code===code);
+  inp.value=a?`${a.code}  ${a.name}`:code;
+  $("#combo-list").hidden=true;
+}
+
+/* ---- events ---- */
+document.addEventListener("click",async ev=>{
+  const li=ev.target.closest("#combo-list li");
+  if(li){pick(li.dataset.code);return;}
+
+  const btn=ev.target.closest("button[data-act]");
+  if(btn){
+    ev.stopPropagation();
+    const id=btn.dataset.id;
+    if(btn.dataset.act==="confirm")return doConfirm(id);
+    state.open=state.open===id?null:id;comboSel=null;render();
+    if(state.open)setTimeout(()=>$("#combo-in")?.focus(),0);
+    return;
+  }
+  const save=ev.target.closest("#save-btn");
+  if(save){ev.stopPropagation();return doCorrect(save.dataset.id);}
+  if(ev.target.closest(".panel"))return;
+
+  const tr=ev.target.closest("tr.row");
+  if(tr){
+    state.open=state.open===tr.dataset.id?null:tr.dataset.id;comboSel=null;render();
+    if(state.open)setTimeout(()=>$("#combo-in")?.focus(),0);
+  }
+});
+document.addEventListener("keydown",ev=>{
+  if(ev.target.id==="combo-in"){
+    const list=$("#combo-list");
+    const items=[...list.querySelectorAll("li")];
+    if(ev.key==="ArrowDown"||ev.key==="ArrowUp"){
+      ev.preventDefault();if(!items.length)return;
+      comboIdx=(comboIdx+(ev.key==="ArrowDown"?1:-1)+items.length)%items.length;
+      items.forEach((li,i)=>li.setAttribute("aria-selected",i===comboIdx));
+      items[comboIdx].scrollIntoView({block:"nearest"});
+    }else if(ev.key==="Enter"){
+      ev.preventDefault();
+      if(!list.hidden&&items[comboIdx])pick(items[comboIdx].dataset.code);
+      else doCorrect(ev.target.dataset.id);
+    }else if(ev.key==="Escape"){list.hidden=true;}
+    return;
+  }
+  const tr=ev.target.closest?.("tr.row");
+  if(tr&&(ev.key==="Enter"||ev.key===" ")){
+    ev.preventDefault();
+    state.open=state.open===tr.dataset.id?null:tr.dataset.id;render();
+  }
+});
+document.addEventListener("input",ev=>{
+  if(ev.target.id==="combo-in"){comboSel=null;openCombo();}
+});
+document.addEventListener("focusin",ev=>{if(ev.target.id==="combo-in")openCombo();});
+
+$("#filters").addEventListener("click",ev=>{
+  const b=ev.target.closest("button[data-f]");if(!b)return;
+  state.filter=b.dataset.f;state.open=null;load();
+});
+let qt;$("#q").addEventListener("input",e=>{
+  clearTimeout(qt);qt=setTimeout(()=>{state.q=e.target.value;state.open=null;load();},180);
+});
+
+async function doConfirm(id){
+  const r=await fetch(`/api/entries/${id}/confirm`,{method:"POST"});
+  if(!r.ok){toast((await r.json()).detail||"Could not confirm");return;}
+  const d=await r.json();
+  toast(`Confirmed ${id} as ${d.account_code}. Remembered ${d.remembered} for the next run.`);
+  state.open=null;load();
+}
+async function doCorrect(id){
+  const code=comboSel;
+  if(!code){toast("Pick an account from the list first.");return;}
+  const r=await fetch(`/api/entries/${id}/correct`,{
+    method:"POST",headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({account_code:code})});
+  if(!r.ok){toast((await r.json()).detail||"Could not correct");return;}
+  const d=await r.json();
+  toast(`${id} corrected to ${d.account_code}. Remembered ${d.remembered}; payee memory now holds ${d.payee_memory_entries}.`);
+  state.open=null;comboSel=null;load();
+}
+
+(async()=>{
+  state.accounts=await (await fetch("/api/accounts")).json();
+  // #T0123 opens that row directly, so a reviewer can link a colleague to it.
+  const h=location.hash.replace("#","");
+  if(h)state.open=h;
+  await load();
+})();
+</script>
+</body>
+</html>

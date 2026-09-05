@@ -99,5 +99,13 @@ def run() -> None:
     conn.close()
 
 
+@app.command()
+def serve(host: str = "127.0.0.1", port: int = 8000) -> None:
+    """Serve the review screen. Corrections here feed the next run."""
+    import uvicorn
+
+    uvicorn.run("ledgerline.api:app", host=host, port=port, log_level="warning")
+
+
 if __name__ == "__main__":
     app()

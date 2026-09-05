@@ -9,7 +9,9 @@ computed under the opposite constraint.
 
 import hashlib
 import json
+import os
 import random
+import re
 import sqlite3
 import time
 from typing import Optional
@@ -19,10 +21,19 @@ from pydantic import BaseModel
 from . import storage
 from .models import Account, ClassificationResult, Transaction
 
-MODEL_NAME = "gemini-2.5-flash-lite"
-MAX_RETRIES = 5
-BASE_BACKOFF = 1.0
+# CLAUDE.md specifies gemini-2.5-flash-lite, but that model now returns 404
+# for new API keys ("no longer available to new users"); this is its
+# recommended replacement. Override with LEDGERLINE_MODEL if needed.
+MODEL_NAME = os.environ.get("LEDGERLINE_MODEL", "gemini-3.5-flash-lite")
+MAX_RETRIES = 8
+BASE_BACKOFF = 2.0
 REFUSAL_TOKEN = "NONE"
+# The free tier allows 15 requests/minute. Pacing under that up front is
+# cheaper than burning retries against a quota that resets on a fixed window.
+REQUESTS_PER_MINUTE = float(os.environ.get("LEDGERLINE_RPM", "14"))
+MIN_CALL_INTERVAL = 60.0 / REQUESTS_PER_MINUTE
+# A 429 body carries the server's own wait hint; honour it over our guess.
+RETRY_DELAY_RE = re.compile(r"'retryDelay':\s*'(\d+(?:\.\d+)?)s'")
 
 
 class LLMVerdict(BaseModel):
@@ -86,6 +97,11 @@ def _cache_key(txn: Transaction) -> str:
     return hashlib.sha256(payload.encode()).hexdigest()
 
 
+def _server_retry_delay(exc: Exception) -> Optional[float]:
+    match = RETRY_DELAY_RE.search(str(exc))
+    return float(match.group(1)) if match else None
+
+
 def _is_rate_limit(exc: Exception) -> bool:
     code = getattr(exc, "code", None)
     if code == 429:
@@ -113,6 +129,7 @@ class LLMTier:
         self.valid_codes = {a.code for a in accounts}
         self.calls = 0
         self.cache_hits = 0
+        self._last_call = 0.0
         self.scored = 0
         self.predictions: dict[str, tuple[Optional[str], float]] = {}
 
@@ -139,6 +156,7 @@ class LLMTier:
             temperature=0.0,
         )
         for attempt in range(MAX_RETRIES):
+            self._throttle()
             try:
                 response = self.client.models.generate_content(
                     model=self.model_name, contents=prompt, config=config
@@ -147,9 +165,20 @@ class LLMTier:
             except Exception as exc:
                 if not _is_rate_limit(exc) or attempt == MAX_RETRIES - 1:
                     raise
-                delay = BASE_BACKOFF * (2**attempt) + random.uniform(0, 0.5)
-                time.sleep(delay)
+                hinted = _server_retry_delay(exc)
+                delay = (
+                    hinted + 1.0
+                    if hinted is not None
+                    else BASE_BACKOFF * (2**attempt)
+                )
+                time.sleep(delay + random.uniform(0, 0.5))
         raise RuntimeError("unreachable")
+
+    def _throttle(self) -> None:
+        elapsed = time.monotonic() - self._last_call
+        if elapsed < MIN_CALL_INTERVAL:
+            time.sleep(MIN_CALL_INTERVAL - elapsed)
+        self._last_call = time.monotonic()
 
     def _to_result(
         self, payload: dict, txn: Transaction, cached: bool
