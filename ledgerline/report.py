@@ -14,6 +14,7 @@ from rich.console import Console
 from rich.table import Table
 
 from .models import (
+    CapexProbeRow,
     ClassifierTraining,
     ConfusionPair,
     ErrorRow,
@@ -31,6 +32,7 @@ CONFUSION_PREVIEW = 10
 # Below this gap, seen and held-out vendors are not meaningfully different and
 # the vendor split is not testing generalisation.
 MEANINGFUL_GAP = 0.05
+CAPEX_ACCOUNT = "1500"
 
 
 def build_report(
@@ -43,6 +45,10 @@ def build_report(
     heldout_vendors: Optional[list[str]] = None,
     classifier_training: Optional[ClassifierTraining] = None,
     classifier_predictions: Optional[dict[str, tuple[str, float]]] = None,
+    llm_predictions: Optional[dict[str, tuple[Optional[str], float]]] = None,
+    llm_calls: int = 0,
+    llm_cache_hits: int = 0,
+    llm_skipped_reason: Optional[str] = None,
 ) -> RunReport:
     narrations = {t.txn_id: t.narration for t in transactions}
     counterparties = {t.txn_id: normalize(t.counterparty_raw) for t in transactions}
@@ -61,11 +67,6 @@ def build_report(
     errors: list[ErrorRow] = []
     flagged_rows: list[FlaggedRow] = []
     per_method: OrderedDict[str, dict] = OrderedDict()
-    split: OrderedDict[str, dict] = OrderedDict(
-        (b, {"scored": 0, "correct": 0})
-        for b in ("seen vendors", "held-out vendors", "neither list")
-    )
-    confusions: Counter = Counter()
 
     def bucket(method: str) -> dict:
         if method not in per_method:
@@ -144,41 +145,39 @@ def build_report(
         for m, s in per_method.items()
     ]
 
-    # Scored over every prediction the classifier made, gate or no gate.
-    for txn_id, (predicted, _conf) in (classifier_predictions or {}).items():
-        actual = truth.get(txn_id)
-        if actual is None:
-            continue
+    def bucket_for(txn_id: str) -> str:
         vendor = counterparties.get(txn_id, "")
         if vendor in seen_vendors:
-            bucket_name = "seen vendors"
-        elif vendor in heldout:
-            bucket_name = "held-out vendors"
-        else:
-            bucket_name = "neither list"
-        split[bucket_name]["scored"] += 1
-        if predicted == actual:
-            split[bucket_name]["correct"] += 1
-        else:
-            confusions[(actual, predicted)] += 1
+            return "seen vendors"
+        if vendor in heldout:
+            return "held-out vendors"
+        return "neither list"
 
-    vendor_split = [
-        VendorSplitStats(
-            bucket=name,
-            scored=s["scored"],
-            correct=s["correct"],
-            accuracy=(s["correct"] / s["scored"]) if s["scored"] else None,
-        )
-        for name, s in split.items()
-    ]
+    vendor_split, confusion_pairs = _split_and_confusions(
+        classifier_predictions, truth, bucket_for
+    )
+    llm_split, llm_confusion_pairs = _split_and_confusions(
+        llm_predictions, truth, bucket_for
+    )
 
-    confusion_pairs = [
-        ConfusionPair(actual=a, predicted=p, count=n)
-        for (a, p), n in confusions.most_common(CONFUSION_PREVIEW)
-    ]
+    # How tier 3 handled the rows that have no correct answer.
+    undecidable_seen = 0
+    undecidable_refused = 0
+    for txn_id, (predicted, _conf) in (llm_predictions or {}).items():
+        if truth.get(txn_id) is None:
+            undecidable_seen += 1
+            if predicted is None:
+                undecidable_refused += 1
+
+    capex_probe = _capex_probe(transactions, entries, truth, narrations)
 
     notes = list(notes or [])
-    notes.extend(_vendor_split_findings(vendor_split))
+    notes.extend(_vendor_split_findings(vendor_split, "classifier"))
+    if llm_predictions:
+        notes.extend(_vendor_split_findings(llm_split, "LLM"))
+        notes.extend(
+            _refusal_findings(undecidable_seen, undecidable_refused)
+        )
 
     return RunReport(
         total=total,
@@ -201,13 +200,111 @@ def build_report(
         ),
         classifier_vendor_split=vendor_split,
         classifier_confusions=confusion_pairs,
+        llm_scored=len(llm_predictions or {}),
+        llm_posted=next(
+            (m.attempted for m in method_stats if m.method == "llm"), 0
+        ),
+        llm_calls=llm_calls,
+        llm_cache_hits=llm_cache_hits,
+        llm_call_rate=(
+            llm_calls / len(llm_predictions) if llm_predictions else None
+        ),
+        llm_skipped_reason=llm_skipped_reason,
+        llm_vendor_split=llm_split,
+        llm_confusions=llm_confusion_pairs,
+        llm_undecidable_seen=undecidable_seen,
+        llm_undecidable_refused=undecidable_refused,
+        capex_probe=capex_probe,
         payee_memory_entries=payee_memory_entries,
         payee_memory_warm=payee_memory_entries > 0,
         notes=notes,
     )
 
 
-def _vendor_split_findings(split: list[VendorSplitStats]) -> list[str]:
+def _split_and_confusions(
+    predictions: Optional[dict],
+    truth: dict[str, Optional[str]],
+    bucket_for,
+) -> tuple[list[VendorSplitStats], list[ConfusionPair]]:
+    """Accuracy by vendor familiarity over every row a tier scored, plus its
+    top confusions. Refusals are not accuracy events on decidable rows, so they
+    are excluded from both rather than counted as errors."""
+    split: OrderedDict[str, dict] = OrderedDict(
+        (b, {"scored": 0, "correct": 0})
+        for b in ("seen vendors", "held-out vendors", "neither list")
+    )
+    confusions: Counter = Counter()
+
+    for txn_id, (predicted, _conf) in (predictions or {}).items():
+        actual = truth.get(txn_id)
+        if actual is None or predicted is None:
+            continue
+        bucket = split[bucket_for(txn_id)]
+        bucket["scored"] += 1
+        if predicted == actual:
+            bucket["correct"] += 1
+        else:
+            confusions[(actual, predicted)] += 1
+
+    stats = [
+        VendorSplitStats(
+            bucket=name,
+            scored=s["scored"],
+            correct=s["correct"],
+            accuracy=(s["correct"] / s["scored"]) if s["scored"] else None,
+        )
+        for name, s in split.items()
+    ]
+    pairs = [
+        ConfusionPair(actual=a, predicted=p, count=n)
+        for (a, p), n in confusions.most_common(CONFUSION_PREVIEW)
+    ]
+    return stats, pairs
+
+
+def _capex_probe(
+    transactions: list[Transaction],
+    entries: list[LedgerEntry],
+    truth: dict[str, Optional[str]],
+    narrations: dict[str, str],
+) -> list[CapexProbeRow]:
+    posted = {e.txn_id: e for e in entries if e.status == "posted"}
+    rows = []
+    for txn in transactions:
+        if truth.get(txn.txn_id) != CAPEX_ACCOUNT:
+            continue
+        entry = posted.get(txn.txn_id)
+        rows.append(
+            CapexProbeRow(
+                txn_id=txn.txn_id,
+                narration=narrations.get(txn.txn_id, ""),
+                decided_by=entry.method if entry else None,
+                predicted=entry.account_code if entry else None,
+                correct=bool(entry and entry.account_code == CAPEX_ACCOUNT),
+            )
+        )
+    return rows
+
+
+def _refusal_findings(seen: int, refused: int) -> list[str]:
+    if seen == 0:
+        return []
+    assigned = seen - refused
+    if assigned == 0:
+        return [
+            f"the LLM refused all {seen} no-signal rows it saw, which is the "
+            "correct answer for rows with no usable signal"
+        ]
+    return [
+        f"FINDING: the LLM assigned an account to {assigned} of {seen} "
+        "no-signal rows instead of refusing. Those rows carry no usable "
+        "signal, so a confident answer there is a fabrication, not a win."
+    ]
+
+
+def _vendor_split_findings(
+    split: list[VendorSplitStats], tier: str = "classifier"
+) -> list[str]:
     """States plainly whether held-out vendors were actually harder. If they
     were not, the two vendor sets are too similar and the split is not
     measuring generalisation - that is a finding, not something to smooth over."""
@@ -217,7 +314,7 @@ def _vendor_split_findings(split: list[VendorSplitStats]) -> list[str]:
 
     if not seen or not held or seen.scored == 0 or held.scored == 0:
         return [
-            "classifier vendor split not measurable: the classifier scored "
+            f"{tier} vendor split not measurable: it scored "
             f"{seen.scored if seen else 0} seen-vendor and "
             f"{held.scored if held else 0} held-out rows"
         ]
@@ -225,15 +322,16 @@ def _vendor_split_findings(split: list[VendorSplitStats]) -> list[str]:
     gap = seen.accuracy - held.accuracy
     if gap >= MEANINGFUL_GAP:
         return [
-            f"held-out vendor accuracy ({held.accuracy:.1%}) is "
-            f"{gap:.1%} below seen-vendor accuracy ({seen.accuracy:.1%}), "
+            f"{tier} held-out accuracy ({held.accuracy:.1%}) is "
+            f"{gap:.1%} below its seen-vendor accuracy ({seen.accuracy:.1%}), "
             "which is the expected direction: unseen payee names are harder"
         ]
     return [
-        f"FINDING: held-out accuracy ({held.accuracy:.1%}) is NOT clearly "
-        f"below seen-vendor accuracy ({seen.accuracy:.1%}); gap is {gap:.1%}. "
-        "The two vendor lists are probably too similar, so this split is not "
-        "testing generalisation as intended."
+        f"FINDING: {tier} held-out accuracy ({held.accuracy:.1%}) is NOT "
+        f"clearly below seen-vendor accuracy ({seen.accuracy:.1%}); gap is "
+        f"{gap:.1%}. For the classifier that would mean the vendor lists are "
+        "too similar; for the LLM it may simply mean payee familiarity is not "
+        "what it relies on."
     ]
 
 
@@ -265,7 +363,18 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
         summary.add_row(
             "undecidable rows wrongly posted", str(report.wrongly_posted_undecidable)
         )
-    summary.add_row("llm calls", str(report.llm_calls))
+    if report.llm_skipped_reason:
+        summary.add_row("llm", f"skipped - {report.llm_skipped_reason}")
+    else:
+        summary.add_row(
+            "llm calls",
+            f"{report.llm_calls} live, {report.llm_cache_hits} cached"
+            + (
+                f" ({report.llm_call_rate:.1%} call rate)"
+                if report.llm_call_rate is not None
+                else ""
+            ),
+        )
     memory_state = "warm" if report.payee_memory_warm else "empty"
     summary.add_row(
         "payee memory at start",
@@ -343,6 +452,66 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
         for c in report.classifier_confusions:
             cm.add_row(c.actual, c.predicted, str(c.count))
         console.print(cm)
+        console.print()
+
+    if report.llm_vendor_split and report.llm_scored:
+        ls = Table(
+            title=(
+                f"LLM accuracy by vendor familiarity (scored "
+                f"{report.llm_scored} rows, {report.llm_posted} posted; "
+                f"refused {report.llm_undecidable_refused} of "
+                f"{report.llm_undecidable_seen} no-signal rows)"
+            ),
+            title_justify="left",
+            show_edge=False,
+        )
+        ls.add_column("bucket")
+        ls.add_column("scored", justify="right")
+        ls.add_column("correct", justify="right")
+        ls.add_column("accuracy", justify="right")
+        for s in report.llm_vendor_split:
+            ls.add_row(s.bucket, str(s.scored), str(s.correct), _pct(s.accuracy))
+        console.print(ls)
+        console.print()
+
+    if report.llm_confusions:
+        lcm = Table(
+            title="Top LLM confusions (actual -> predicted)",
+            title_justify="left",
+            show_edge=False,
+        )
+        lcm.add_column("actual")
+        lcm.add_column("predicted")
+        lcm.add_column("count", justify="right")
+        for c in report.llm_confusions:
+            lcm.add_row(c.actual, c.predicted, str(c.count))
+        console.print(lcm)
+        console.print()
+
+    if report.capex_probe:
+        right = sum(1 for r in report.capex_probe if r.correct)
+        cap = Table(
+            title=(
+                f"Capex vs opex probe - rows that belong in {CAPEX_ACCOUNT} "
+                f"Equipment ({right} of {len(report.capex_probe)} correct)"
+            ),
+            title_justify="left",
+            show_edge=False,
+        )
+        cap.add_column("txn")
+        cap.add_column("narration", max_width=46, overflow="fold")
+        cap.add_column("decided by")
+        cap.add_column("posted", justify="right")
+        cap.add_column("ok", justify="center")
+        for r in report.capex_probe:
+            cap.add_row(
+                r.txn_id,
+                r.narration,
+                r.decided_by or "unresolved",
+                r.predicted or "-",
+                "yes" if r.correct else "no",
+            )
+        console.print(cap)
         console.print()
 
     if report.errors:

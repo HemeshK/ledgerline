@@ -117,6 +117,18 @@ class ConfusionPair(BaseModel):
     count: int
 
 
+class CapexProbeRow(BaseModel):
+    """Capex-vs-opex rows (truth 1500 Equipment), and which tier ended up
+    deciding each one. A tier only sees rows the tiers above it left open, so
+    this also shows where a confident early answer blocks a later tier."""
+
+    txn_id: str
+    narration: str
+    decided_by: Optional[Method] = None
+    predicted: Optional[str] = None
+    correct: bool = False
+
+
 class FlaggedRow(BaseModel):
     """A row sent to the exception queue, with the reason a human acts on."""
 
@@ -154,7 +166,17 @@ class RunReport(BaseModel):
     classifier_posted: int = 0
     classifier_vendor_split: list[VendorSplitStats] = Field(default_factory=list)
     classifier_confusions: list[ConfusionPair] = Field(default_factory=list)
+    llm_scored: int = 0
+    llm_posted: int = 0
     llm_calls: int = 0
+    llm_cache_hits: int = 0
+    llm_call_rate: Optional[float] = None
+    llm_skipped_reason: Optional[str] = None
+    llm_vendor_split: list[VendorSplitStats] = Field(default_factory=list)
+    llm_confusions: list[ConfusionPair] = Field(default_factory=list)
+    llm_undecidable_seen: int = 0
+    llm_undecidable_refused: int = 0
+    capex_probe: list[CapexProbeRow] = Field(default_factory=list)
     # Payee memory grows as humans correct rows, so runs stop being identical
     # once it is warm. Recording its size makes that visible in the report.
     payee_memory_entries: int = 0

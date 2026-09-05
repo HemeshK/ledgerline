@@ -89,6 +89,21 @@ def lookup_payee(
     return (row["account_code"], row["count"]) if row else None
 
 
+def cache_get(conn: sqlite3.Connection, key: str) -> Optional[str]:
+    row = conn.execute(
+        "SELECT response FROM llm_cache WHERE narration_hash = ?", (key,)
+    ).fetchone()
+    return row["response"] if row else None
+
+
+def cache_put(conn: sqlite3.Connection, key: str, response: str) -> None:
+    conn.execute(
+        "INSERT OR REPLACE INTO llm_cache (narration_hash, response) VALUES (?, ?)",
+        (key, response),
+    )
+    conn.commit()
+
+
 def load_entries(
     conn: sqlite3.Connection, status: Optional[str] = None
 ) -> list[LedgerEntry]:
