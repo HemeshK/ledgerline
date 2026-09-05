@@ -1,0 +1,8 @@
+.env
+*.db
+__pycache__/
+*.joblib
+.venv/
+.pytest_cache/
+report.json
+.DS_Store

@@ -1,0 +1,12 @@
+pydantic
+scikit-learn
+joblib
+google-genai
+fastapi
+uvicorn
+rich
+typer
+python-dotenv
+matplotlib
+pytest
+faker

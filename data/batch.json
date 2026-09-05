@@ -1,0 +1,1665 @@
+{
+  "train_vendors": [
+    "AIRTEL BUSINESS",
+    "AMAZON WEB SERVICES",
+    "ANITA DESAI",
+    "APEX LEGAL SERVICES",
+    "BLUE DART EXPRESS",
+    "BRIGHTPATH CONSULTING LLP",
+    "CARE FOUNDATION TRUST",
+    "DELL TECHNOLOGIES INDIA",
+    "DIGITAL REACH MARKETING",
+    "FRESHWORKS SAAS",
+    "GOOGLE ADS INDIA",
+    "GST DEPARTMENT",
+    "HDFC BANK LOAN CELL",
+    "ICICI LOMBARD INSURANCE",
+    "JIO FIBER",
+    "MERIDIAN CAPITAL FD",
+    "NIMBUS RETAIL PVT LTD",
+    "OFFICE MART SUPPLIES",
+    "PRESTIGE ESTATES",
+    "PRIYA NAIR",
+    "QUICKFIX REPAIRS",
+    "RAVI KUMAR",
+    "SELF TRANSFER SAVINGS",
+    "SHARMA & ASSOCIATES CA",
+    "SKILLBRIDGE ACADEMY",
+    "STATIONERY HUB",
+    "SURESH MENON",
+    "SWIGGY DESIGNS PVT LTD",
+    "TATA POWER",
+    "ZOMATO INDIA"
+  ],
+  "heldout_vendors": [
+    "ADANI ELECTRICITY",
+    "ADPULSE MEDIA",
+    "AXIS BANK LOAN CELL",
+    "BAJAJ ALLIANZ INSURANCE",
+    "BSNL BROADBAND",
+    "DEEPAK IYER",
+    "DELHIVERY LOGISTICS",
+    "GREENLEAF TRADERS",
+    "HOPE FOUNDATION TRUST",
+    "KAVITA RAO",
+    "LEARNWELL INSTITUTE",
+    "LENOVO INDIA",
+    "MANOJ PILLAI",
+    "META ADS INDIA",
+    "MICROSOFT AZURE",
+    "NORTHSTAR LEGAL",
+    "PAPERTRAIL SUPPLIES",
+    "RAPIDFIX SERVICES",
+    "SELF TRANSFER CURRENT",
+    "SKYLINE ESTATES",
+    "SPARKLINE CONSULTING",
+    "SUNIL D'SOUZA",
+    "TRUSTLINE CAPITAL FD",
+    "URBAN CRUST FOODS PVT LTD",
+    "VERMA & CO CHARTERED ACCOUNTANTS",
+    "VODAFONE IDEA BUSINESS",
+    "ZOHO CORPORATION"
+  ],
+  "transactions": [
+    {
+      "txn_id": "T0003",
+      "date": "2024-08-03",
+      "amount": "1567.94",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/PRIYA NAIR/CONSULTING",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0026",
+      "date": "2024-08-15",
+      "amount": "1407.04",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/DIGITAL REACH MARKETING/INV5119/DATED 15-AUG-2024",
+      "counterparty_raw": "DIGITAL REACH MARKETING"
+    },
+    {
+      "txn_id": "T0103",
+      "date": "2024-08-22",
+      "amount": "580.20",
+      "direction": "debit",
+      "narration": "RTGS/SBI/BAJAJ ALLIANZ INSURANCE/INV9375/DATED 22-AUG-2024",
+      "counterparty_raw": "BAJAJ ALLIANZ INSURANCE"
+    },
+    {
+      "txn_id": "T0152",
+      "date": "2024-08-25",
+      "amount": "171278.66",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0132",
+      "date": "2024-08-27",
+      "amount": "43741.58",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/LENOVO INDIA/PO119/PRINTER UNIT",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0191",
+      "date": "2024-08-11",
+      "amount": "444.17",
+      "direction": "credit",
+      "narration": "IMPS/AXIS/7009988776",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0029",
+      "date": "2024-08-06",
+      "amount": "1209.40",
+      "direction": "debit",
+      "narration": "IMPS/SBI/OFFICE MART SUPPLIES/INV1053/DATED 06-AUG-2024",
+      "counterparty_raw": "OFFICE MART SUPPLIES"
+    },
+    {
+      "txn_id": "T0033",
+      "date": "2024-08-30",
+      "amount": "21.49",
+      "direction": "debit",
+      "narration": "RTGS/KOTAK/QUICKFIX REPAIRS/INV6310/DATED 30-AUG-2024",
+      "counterparty_raw": "QUICKFIX REPAIRS"
+    },
+    {
+      "txn_id": "T0151",
+      "date": "2024-08-08",
+      "amount": "493233.92",
+      "direction": "debit",
+      "narration": "IMPS/HDFC/SELF TRANSFER SAVINGS/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER SAVINGS"
+    },
+    {
+      "txn_id": "T0036",
+      "date": "2024-08-25",
+      "amount": "1416.45",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/APEX LEGAL SERVICES/INV3060/DATED 25-AUG-2024",
+      "counterparty_raw": "APEX LEGAL SERVICES"
+    },
+    {
+      "txn_id": "T0153",
+      "date": "2024-08-26",
+      "amount": "21571.75",
+      "direction": "credit",
+      "narration": "IMPS/SBI/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0046",
+      "date": "2024-08-19",
+      "amount": "1259.07",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9123456780/PRIYA NAIR/CONSULTING",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0048",
+      "date": "2024-08-14",
+      "amount": "948.76",
+      "direction": "credit",
+      "narration": "RTGS/YES/NIMBUS RETAIL PVT LTD/INV7939/DATED 14-AUG-2024",
+      "counterparty_raw": "NIMBUS RETAIL PVT LTD"
+    },
+    {
+      "txn_id": "T0120",
+      "date": "2024-08-14",
+      "amount": "1319.82",
+      "direction": "credit",
+      "narration": "NEFT/HDFC/NIMBUS RETAIL PVT LTD/INV6421/DATED 14-AUG-2024/GST INCL",
+      "counterparty_raw": "NIMBUS RETAIL PVT LTD"
+    },
+    {
+      "txn_id": "T0134",
+      "date": "2024-08-07",
+      "amount": "33419.19",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/DELL TECHNOLOGIES INDIA/PO256/MONITOR",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0098",
+      "date": "2024-08-14",
+      "amount": "875.06",
+      "direction": "debit",
+      "narration": "IMPS/YES/DELHIVERY LOGISTICS/INV7592/DATED 14-AUG-2024",
+      "counterparty_raw": "DELHIVERY LOGISTICS"
+    },
+    {
+      "txn_id": "T0111",
+      "date": "2024-08-18",
+      "amount": "829.84",
+      "direction": "credit",
+      "narration": "NEFT/HDFC/GREENLEAF TRADERS/INV2988/DATED 18-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0176",
+      "date": "2024-08-28",
+      "amount": "48086.90",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/DEEPAK IYER/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0045",
+      "date": "2024-08-07",
+      "amount": "1433.56",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9123456780/ANITA DESAI/CONSULTING",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0072",
+      "date": "2024-08-07",
+      "amount": "1901.17",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/DELHIVERY LOGISTICS/INV6617/DATED 07-AUG-2024",
+      "counterparty_raw": "DELHIVERY LOGISTICS"
+    },
+    {
+      "txn_id": "T0007",
+      "date": "2024-08-11",
+      "amount": "748.42",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9123456780/SURESH MENON/CONSULTING",
+      "counterparty_raw": "SURESH MENON"
+    },
+    {
+      "txn_id": "T0143",
+      "date": "2024-08-21",
+      "amount": "107131.46",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/LENOVO INDIA/PO545/DESKTOP",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0078",
+      "date": "2024-08-29",
+      "amount": "410.73",
+      "direction": "credit",
+      "narration": "NEFT/YES/GREENLEAF TRADERS/INV9938/DATED 29-AUG-2024",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0079",
+      "date": "2024-08-05",
+      "amount": "1146.66",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9123456780/DEEPAK IYER/CONSULTING",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0082",
+      "date": "2024-08-30",
+      "amount": "2457.62",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/AXIS BANK LOAN CELL/INV4878/DATED 30-AUG-2024",
+      "counterparty_raw": "AXIS BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0196",
+      "date": "2024-08-28",
+      "amount": "13.61",
+      "direction": "debit",
+      "narration": "DEBIT/SBI/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "SBI BANK"
+    },
+    {
+      "txn_id": "T0021",
+      "date": "2024-08-05",
+      "amount": "666.51",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/PRESTIGE ESTATES/INV9830/DATED 05-AUG-2024",
+      "counterparty_raw": "PRESTIGE ESTATES"
+    },
+    {
+      "txn_id": "T0066",
+      "date": "2024-08-01",
+      "amount": "1221.36",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/ADPULSE MEDIA/INV2638/DATED 01-AUG-2024",
+      "counterparty_raw": "ADPULSE MEDIA"
+    },
+    {
+      "txn_id": "T0174",
+      "date": "2024-08-01",
+      "amount": "44268.93",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/ANITA DESAI/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0054",
+      "date": "2024-08-06",
+      "amount": "1085.39",
+      "direction": "credit",
+      "narration": "CR/RTGS/ICICI/GREENLEAF TRADERS/INV8956/DATED 06-AUG-2024",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0090",
+      "date": "2024-08-04",
+      "amount": "2319.10",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/ADPULSE MEDIA/INV5279/DATED 04-AUG-2024",
+      "counterparty_raw": "ADPULSE MEDIA"
+    },
+    {
+      "txn_id": "T0118",
+      "date": "2024-08-11",
+      "amount": "1729.84",
+      "direction": "credit",
+      "narration": "NEFT/AXIS/RAVI KUMAR/INV2320/DATED 11-AUG-2024/GST INCL",
+      "counterparty_raw": "RAVI KUMAR"
+    },
+    {
+      "txn_id": "T0052",
+      "date": "2024-08-28",
+      "amount": "2440.28",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/SHARMA & ASSOCIATES CA/INV2235/DATED 28-AUG-2024",
+      "counterparty_raw": "SHARMA & ASSOCIATES CA"
+    },
+    {
+      "txn_id": "T0101",
+      "date": "2024-08-13",
+      "amount": "1456.38",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9876543210/DEEPAK IYER/CONSULTING",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0149",
+      "date": "2024-08-12",
+      "amount": "183377.36",
+      "direction": "debit",
+      "narration": "IMPS/ICICI/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0146",
+      "date": "2024-08-09",
+      "amount": "312528.10",
+      "direction": "credit",
+      "narration": "IMPS/HDFC/SELF TRANSFER SAVINGS/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER SAVINGS"
+    },
+    {
+      "txn_id": "T0137",
+      "date": "2024-08-31",
+      "amount": "82183.67",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/DELL TECHNOLOGIES INDIA/PO692/LAPTOP",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0047",
+      "date": "2024-08-26",
+      "amount": "1087.08",
+      "direction": "debit",
+      "narration": "NEFT/SBI/HDFC BANK LOAN CELL/INV4119/DATED 26-AUG-2024",
+      "counterparty_raw": "HDFC BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0112",
+      "date": "2024-08-26",
+      "amount": "1496.28",
+      "direction": "credit",
+      "narration": "NEFT/ICICI/GREENLEAF TRADERS/INV9702/DATED 26-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0110",
+      "date": "2024-08-08",
+      "amount": "603.06",
+      "direction": "credit",
+      "narration": "NEFT/SBI/ZOMATO INDIA/INV9486/DATED 08-AUG-2024/GST INCL",
+      "counterparty_raw": "ZOMATO INDIA"
+    },
+    {
+      "txn_id": "T0015",
+      "date": "2024-08-23",
+      "amount": "2475.38",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/ANITA DESAI/CONSULTING",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0148",
+      "date": "2024-08-16",
+      "amount": "228113.31",
+      "direction": "credit",
+      "narration": "IMPS/HDFC/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0198",
+      "date": "2024-08-15",
+      "amount": "11.16",
+      "direction": "debit",
+      "narration": "DEBIT/KOTAK/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "KOTAK BANK"
+    },
+    {
+      "txn_id": "T0187",
+      "date": "2024-08-02",
+      "amount": "119.81",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/PAYMENT",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0122",
+      "date": "2024-08-29",
+      "amount": "119.42",
+      "direction": "credit",
+      "narration": "NEFT/SBI/SPARKLINE CONSULTING/INV7232/DATED 29-AUG-2024/GST INCL",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0055",
+      "date": "2024-08-06",
+      "amount": "1013.45",
+      "direction": "debit",
+      "narration": "RTGS/HDFC/VERMA & CO CHARTERED ACCOUNTANTS/INV1035/DATED 06-AUG-2024",
+      "counterparty_raw": "VERMA & CO CHARTERED ACCOUNTANTS"
+    },
+    {
+      "txn_id": "T0172",
+      "date": "2024-08-21",
+      "amount": "27702.07",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9001122334/ANITA DESAI/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0025",
+      "date": "2024-08-20",
+      "amount": "186.53",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/ANITA DESAI/CONSULTING",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0169",
+      "date": "2024-08-20",
+      "amount": "1641.14",
+      "direction": "credit",
+      "narration": "IMPS/KOTAK/UNITY SOLUTIONS/INV-9231",
+      "counterparty_raw": "UNITY SOLUTIONS"
+    },
+    {
+      "txn_id": "T0067",
+      "date": "2024-08-17",
+      "amount": "715.20",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/LENOVO INDIA/INV3170/DATED 17-AUG-2024",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0100",
+      "date": "2024-08-24",
+      "amount": "2386.65",
+      "direction": "debit",
+      "narration": "IMPS/YES/VERMA & CO CHARTERED ACCOUNTANTS/INV3851/DATED 24-AUG-2024",
+      "counterparty_raw": "VERMA & CO CHARTERED ACCOUNTANTS"
+    },
+    {
+      "txn_id": "T0092",
+      "date": "2024-08-24",
+      "amount": "2081.57",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/NORTHSTAR LEGAL/INV6139/DATED 24-AUG-2024",
+      "counterparty_raw": "NORTHSTAR LEGAL"
+    },
+    {
+      "txn_id": "T0167",
+      "date": "2024-08-22",
+      "amount": "160.53",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/7890012345/NEW HORIZON PVT LTD",
+      "counterparty_raw": "NEW HORIZON PVT LTD"
+    },
+    {
+      "txn_id": "T0139",
+      "date": "2024-08-19",
+      "amount": "70743.36",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/DELL TECHNOLOGIES INDIA/PO813/LAPTOP",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0094",
+      "date": "2024-08-02",
+      "amount": "1878.03",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/MICROSOFT AZURE/INV8144/DATED 02-AUG-2024",
+      "counterparty_raw": "MICROSOFT AZURE"
+    },
+    {
+      "txn_id": "T0144",
+      "date": "2024-08-17",
+      "amount": "75312.30",
+      "direction": "debit",
+      "narration": "NEFT/YES/DELL TECHNOLOGIES INDIA/PO927/MONITOR",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0027",
+      "date": "2024-08-22",
+      "amount": "1909.32",
+      "direction": "debit",
+      "narration": "IMPS/HDFC/SKILLBRIDGE ACADEMY/INV2876/DATED 22-AUG-2024",
+      "counterparty_raw": "SKILLBRIDGE ACADEMY"
+    },
+    {
+      "txn_id": "T0095",
+      "date": "2024-08-22",
+      "amount": "1905.94",
+      "direction": "debit",
+      "narration": "RTGS/KOTAK/ADANI ELECTRICITY/INV4228/DATED 22-AUG-2024",
+      "counterparty_raw": "ADANI ELECTRICITY"
+    },
+    {
+      "txn_id": "T0016",
+      "date": "2024-08-06",
+      "amount": "1420.21",
+      "direction": "debit",
+      "narration": "NEFT/YES/DELL TECHNOLOGIES INDIA/INV5010/DATED 06-AUG-2024",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0136",
+      "date": "2024-08-09",
+      "amount": "91890.34",
+      "direction": "debit",
+      "narration": "NEFT/YES/LENOVO INDIA/PO720/DESKTOP",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0028",
+      "date": "2024-08-25",
+      "amount": "719.46",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/CARE FOUNDATION TRUST/INV6573/DATED 25-AUG-2024",
+      "counterparty_raw": "CARE FOUNDATION TRUST"
+    },
+    {
+      "txn_id": "T0175",
+      "date": "2024-08-02",
+      "amount": "29417.63",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9001122334/SUNIL D'SOUZA/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "SUNIL D'SOUZA"
+    },
+    {
+      "txn_id": "T0023",
+      "date": "2024-08-08",
+      "amount": "382.62",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/DIGITAL REACH MARKETING/INV9348/DATED 08-AUG-2024",
+      "counterparty_raw": "DIGITAL REACH MARKETING"
+    },
+    {
+      "txn_id": "T0158",
+      "date": "2024-08-24",
+      "amount": "524.84",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/RAJESH GUPTA",
+      "counterparty_raw": "RAJESH GUPTA"
+    },
+    {
+      "txn_id": "T0186",
+      "date": "2024-08-25",
+      "amount": "445.58",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/9876543210",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0042",
+      "date": "2024-08-01",
+      "amount": "1562.21",
+      "direction": "credit",
+      "narration": "CR/IMPS/AXIS/BRIGHTPATH CONSULTING LLP/INV4770/DATED 01-AUG-2024",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0006",
+      "date": "2024-08-19",
+      "amount": "749.26",
+      "direction": "debit",
+      "narration": "NEFT/SBI/AMAZON WEB SERVICES/INV1106/DATED 19-AUG-2024",
+      "counterparty_raw": "AMAZON WEB SERVICES"
+    },
+    {
+      "txn_id": "T0178",
+      "date": "2024-08-04",
+      "amount": "55681.20",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9123456780/PRIYA NAIR/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0159",
+      "date": "2024-08-06",
+      "amount": "522.11",
+      "direction": "credit",
+      "narration": "IMPS/YES/MEENA IYER/INV-9221",
+      "counterparty_raw": "MEENA IYER"
+    },
+    {
+      "txn_id": "T0022",
+      "date": "2024-08-14",
+      "amount": "2373.58",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/PRIYA NAIR/CONSULTING",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0150",
+      "date": "2024-08-23",
+      "amount": "195400.70",
+      "direction": "credit",
+      "narration": "IMPS/KOTAK/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0145",
+      "date": "2024-08-14",
+      "amount": "75029.29",
+      "direction": "debit",
+      "narration": "NEFT/SBI/LENOVO INDIA/PO972/OFFICE CHAIR SET",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0123",
+      "date": "2024-08-31",
+      "amount": "1147.09",
+      "direction": "credit",
+      "narration": "NEFT/HDFC/GREENLEAF TRADERS/INV5892/DATED 31-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0056",
+      "date": "2024-08-10",
+      "amount": "1128.88",
+      "direction": "debit",
+      "narration": "NEFT/SBI/PAPERTRAIL SUPPLIES/INV8973/DATED 10-AUG-2024",
+      "counterparty_raw": "PAPERTRAIL SUPPLIES"
+    },
+    {
+      "txn_id": "T0168",
+      "date": "2024-08-03",
+      "amount": "670.61",
+      "direction": "debit",
+      "narration": "IMPS/AXIS/FIRSTCHOICE VENTURES/INV-9121",
+      "counterparty_raw": "FIRSTCHOICE VENTURES"
+    },
+    {
+      "txn_id": "T0173",
+      "date": "2024-08-08",
+      "amount": "24580.53",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/ANITA DESAI/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0037",
+      "date": "2024-08-31",
+      "amount": "1461.27",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9123456780/ANITA DESAI/CONSULTING",
+      "counterparty_raw": "ANITA DESAI"
+    },
+    {
+      "txn_id": "T0171",
+      "date": "2024-08-20",
+      "amount": "15052.48",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/DEEPAK IYER/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0009",
+      "date": "2024-08-20",
+      "amount": "713.42",
+      "direction": "debit",
+      "narration": "IMPS/AXIS/BLUE DART EXPRESS/INV1711/DATED 20-AUG-2024",
+      "counterparty_raw": "BLUE DART EXPRESS"
+    },
+    {
+      "txn_id": "T0190",
+      "date": "2024-08-16",
+      "amount": "233.03",
+      "direction": "debit",
+      "narration": "UPI/PHONEPE/PAYMENT",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0165",
+      "date": "2024-08-11",
+      "amount": "503.29",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/8765432109/SAI TRADERS",
+      "counterparty_raw": "SAI TRADERS"
+    },
+    {
+      "txn_id": "T0199",
+      "date": "2024-08-07",
+      "amount": "13.70",
+      "direction": "debit",
+      "narration": "DEBIT/HDFC/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "HDFC BANK"
+    },
+    {
+      "txn_id": "T0081",
+      "date": "2024-08-04",
+      "amount": "947.14",
+      "direction": "debit",
+      "narration": "IMPS/YES/ZOHO CORPORATION/INV7658/DATED 04-AUG-2024",
+      "counterparty_raw": "ZOHO CORPORATION"
+    },
+    {
+      "txn_id": "T0127",
+      "date": "2024-08-20",
+      "amount": "1711.20",
+      "direction": "credit",
+      "narration": "NEFT/ICICI/GREENLEAF TRADERS/INV1441/DATED 20-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0185",
+      "date": "2024-08-27",
+      "amount": "58251.19",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/PRIYA NAIR/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0147",
+      "date": "2024-08-20",
+      "amount": "458413.69",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0087",
+      "date": "2024-08-08",
+      "amount": "82.03",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/LEARNWELL INSTITUTE/INV4164/DATED 08-AUG-2024",
+      "counterparty_raw": "LEARNWELL INSTITUTE"
+    },
+    {
+      "txn_id": "T0109",
+      "date": "2024-08-08",
+      "amount": "515.47",
+      "direction": "credit",
+      "narration": "NEFT/SBI/GREENLEAF TRADERS/INV1090/DATED 08-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0011",
+      "date": "2024-08-27",
+      "amount": "1667.94",
+      "direction": "debit",
+      "narration": "IMPS/AXIS/QUICKFIX REPAIRS/INV6925/DATED 27-AUG-2024",
+      "counterparty_raw": "QUICKFIX REPAIRS"
+    },
+    {
+      "txn_id": "T0155",
+      "date": "2024-08-19",
+      "amount": "257645.43",
+      "direction": "debit",
+      "narration": "IMPS/YES/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0051",
+      "date": "2024-08-05",
+      "amount": "1125.93",
+      "direction": "debit",
+      "narration": "RTGS/SBI/QUICKFIX REPAIRS/INV4006/DATED 05-AUG-2024",
+      "counterparty_raw": "QUICKFIX REPAIRS"
+    },
+    {
+      "txn_id": "T0140",
+      "date": "2024-08-20",
+      "amount": "50309.66",
+      "direction": "debit",
+      "narration": "NEFT/YES/LENOVO INDIA/PO901/MONITOR",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0180",
+      "date": "2024-08-26",
+      "amount": "35804.34",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/RAVI KUMAR/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "RAVI KUMAR"
+    },
+    {
+      "txn_id": "T0044",
+      "date": "2024-08-03",
+      "amount": "1367.82",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/SKILLBRIDGE ACADEMY/INV4899/DATED 03-AUG-2024",
+      "counterparty_raw": "SKILLBRIDGE ACADEMY"
+    },
+    {
+      "txn_id": "T0192",
+      "date": "2024-08-11",
+      "amount": "274.77",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/TRANSFER",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0188",
+      "date": "2024-08-21",
+      "amount": "294.81",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/TRF",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0010",
+      "date": "2024-08-04",
+      "amount": "2437.74",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/SHARMA & ASSOCIATES CA/INV7201/DATED 04-AUG-2024",
+      "counterparty_raw": "SHARMA & ASSOCIATES CA"
+    },
+    {
+      "txn_id": "T0193",
+      "date": "2024-08-22",
+      "amount": "267.44",
+      "direction": "credit",
+      "narration": "UPI/GPAY/9988776655",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0116",
+      "date": "2024-08-21",
+      "amount": "799.05",
+      "direction": "credit",
+      "narration": "NEFT/SBI/DEEPAK IYER/INV5499/DATED 21-AUG-2024/GST INCL",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0197",
+      "date": "2024-08-22",
+      "amount": "22.18",
+      "direction": "debit",
+      "narration": "DEBIT/HDFC/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "HDFC BANK"
+    },
+    {
+      "txn_id": "T0019",
+      "date": "2024-08-03",
+      "amount": "573.07",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/DIGITAL REACH MARKETING/INV6155/DATED 03-AUG-2024",
+      "counterparty_raw": "DIGITAL REACH MARKETING"
+    },
+    {
+      "txn_id": "T0093",
+      "date": "2024-08-04",
+      "amount": "1029.76",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/KAVITA RAO/CONSULTING",
+      "counterparty_raw": "KAVITA RAO"
+    },
+    {
+      "txn_id": "T0002",
+      "date": "2024-08-05",
+      "amount": "1950.61",
+      "direction": "debit",
+      "narration": "IMPS/ICICI/AMAZON WEB SERVICES/INV2679/DATED 05-AUG-2024",
+      "counterparty_raw": "AMAZON WEB SERVICES"
+    },
+    {
+      "txn_id": "T0059",
+      "date": "2024-08-02",
+      "amount": "1351.24",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/ADANI ELECTRICITY/INV2312/DATED 02-AUG-2024",
+      "counterparty_raw": "ADANI ELECTRICITY"
+    },
+    {
+      "txn_id": "T0068",
+      "date": "2024-08-12",
+      "amount": "767.07",
+      "direction": "credit",
+      "narration": "RTGS/ICICI/GREENLEAF TRADERS/INV3584/DATED 12-AUG-2024",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0108",
+      "date": "2024-08-14",
+      "amount": "660.45",
+      "direction": "credit",
+      "narration": "NEFT/SBI/ZOMATO INDIA/INV7291/DATED 14-AUG-2024/GST INCL",
+      "counterparty_raw": "ZOMATO INDIA"
+    },
+    {
+      "txn_id": "T0057",
+      "date": "2024-08-07",
+      "amount": "173.31",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/MICROSOFT AZURE/INV9883/DATED 07-AUG-2024",
+      "counterparty_raw": "MICROSOFT AZURE"
+    },
+    {
+      "txn_id": "T0013",
+      "date": "2024-08-28",
+      "amount": "284.76",
+      "direction": "credit",
+      "narration": "RTGS/ICICI/BRIGHTPATH CONSULTING LLP/INV7227/DATED 28-AUG-2024",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0043",
+      "date": "2024-08-21",
+      "amount": "174.33",
+      "direction": "credit",
+      "narration": "NEFT/YES/BRIGHTPATH CONSULTING LLP/INV4750/DATED 21-AUG-2024",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0076",
+      "date": "2024-08-25",
+      "amount": "362.93",
+      "direction": "credit",
+      "narration": "NEFT/AXIS/URBAN CRUST FOODS PVT LTD/INV5291/DATED 25-AUG-2024",
+      "counterparty_raw": "URBAN CRUST FOODS PVT LTD"
+    },
+    {
+      "txn_id": "T0065",
+      "date": "2024-08-22",
+      "amount": "1712.14",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/VERMA & CO CHARTERED ACCOUNTANTS/INV5915/DATED 22-AUG-2024",
+      "counterparty_raw": "VERMA & CO CHARTERED ACCOUNTANTS"
+    },
+    {
+      "txn_id": "T0017",
+      "date": "2024-08-09",
+      "amount": "2445.85",
+      "direction": "debit",
+      "narration": "IMPS/SBI/SHARMA & ASSOCIATES CA/INV4598/DATED 09-AUG-2024",
+      "counterparty_raw": "SHARMA & ASSOCIATES CA"
+    },
+    {
+      "txn_id": "T0005",
+      "date": "2024-08-23",
+      "amount": "1723.63",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/QUICKFIX REPAIRS/INV9928/DATED 23-AUG-2024",
+      "counterparty_raw": "QUICKFIX REPAIRS"
+    },
+    {
+      "txn_id": "T0064",
+      "date": "2024-08-23",
+      "amount": "843.61",
+      "direction": "debit",
+      "narration": "RTGS/YES/MICROSOFT AZURE/INV4910/DATED 23-AUG-2024",
+      "counterparty_raw": "MICROSOFT AZURE"
+    },
+    {
+      "txn_id": "T0020",
+      "date": "2024-08-13",
+      "amount": "2339.14",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/8765432109/RAVI KUMAR/CONSULTING",
+      "counterparty_raw": "RAVI KUMAR"
+    },
+    {
+      "txn_id": "T0084",
+      "date": "2024-08-26",
+      "amount": "2460.07",
+      "direction": "debit",
+      "narration": "IMPS/AXIS/AXIS BANK LOAN CELL/INV7745/DATED 26-AUG-2024",
+      "counterparty_raw": "AXIS BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0129",
+      "date": "2024-08-28",
+      "amount": "1487.17",
+      "direction": "credit",
+      "narration": "NEFT/ICICI/SPARKLINE CONSULTING/INV3977/DATED 28-AUG-2024/GST INCL",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0102",
+      "date": "2024-08-07",
+      "amount": "1146.92",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/DELHIVERY LOGISTICS/INV6279/DATED 07-AUG-2024",
+      "counterparty_raw": "DELHIVERY LOGISTICS"
+    },
+    {
+      "txn_id": "T0085",
+      "date": "2024-08-09",
+      "amount": "437.32",
+      "direction": "debit",
+      "narration": "RTGS/ICICI/AXIS BANK LOAN CELL/INV2771/DATED 09-AUG-2024",
+      "counterparty_raw": "AXIS BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0050",
+      "date": "2024-08-24",
+      "amount": "909.46",
+      "direction": "credit",
+      "narration": "CR/NEFT/SBI/ZOMATO INDIA/INV2790/DATED 24-AUG-2024",
+      "counterparty_raw": "ZOMATO INDIA"
+    },
+    {
+      "txn_id": "T0133",
+      "date": "2024-08-08",
+      "amount": "41512.25",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/DELL TECHNOLOGIES INDIA/PO872/LAPTOP",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0104",
+      "date": "2024-08-06",
+      "amount": "1747.13",
+      "direction": "debit",
+      "narration": "RTGS/YES/LEARNWELL INSTITUTE/INV2389/DATED 06-AUG-2024",
+      "counterparty_raw": "LEARNWELL INSTITUTE"
+    },
+    {
+      "txn_id": "T0135",
+      "date": "2024-08-16",
+      "amount": "49191.36",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/DELL TECHNOLOGIES INDIA/PO323/MONITOR",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0091",
+      "date": "2024-08-02",
+      "amount": "304.17",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/7890012345/DEEPAK IYER/CONSULTING",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0061",
+      "date": "2024-08-19",
+      "amount": "1578.49",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9876543210/DEEPAK IYER/CONSULTING",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0096",
+      "date": "2024-08-31",
+      "amount": "1761.25",
+      "direction": "debit",
+      "narration": "IMPS/HDFC/NORTHSTAR LEGAL/INV6409/DATED 31-AUG-2024",
+      "counterparty_raw": "NORTHSTAR LEGAL"
+    },
+    {
+      "txn_id": "T0181",
+      "date": "2024-08-04",
+      "amount": "49317.23",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9001122334/DEEPAK IYER/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0012",
+      "date": "2024-08-03",
+      "amount": "140.12",
+      "direction": "debit",
+      "narration": "RTGS/YES/JIO FIBER/INV4733/DATED 03-AUG-2024",
+      "counterparty_raw": "JIO FIBER"
+    },
+    {
+      "txn_id": "T0106",
+      "date": "2024-08-10",
+      "amount": "753.88",
+      "direction": "credit",
+      "narration": "NEFT/YES/NIMBUS RETAIL PVT LTD/INV4262/DATED 10-AUG-2024/GST INCL",
+      "counterparty_raw": "NIMBUS RETAIL PVT LTD"
+    },
+    {
+      "txn_id": "T0060",
+      "date": "2024-08-03",
+      "amount": "1790.02",
+      "direction": "credit",
+      "narration": "CR/RTGS/KOTAK/GREENLEAF TRADERS/INV4853/DATED 03-AUG-2024",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0157",
+      "date": "2024-08-23",
+      "amount": "1209.46",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9123456780/ZOMATO CONSULTANTS LLP",
+      "counterparty_raw": "ZOMATO CONSULTANTS LLP"
+    },
+    {
+      "txn_id": "T0183",
+      "date": "2024-08-20",
+      "amount": "13343.76",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/SUNIL D'SOUZA/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "SUNIL D'SOUZA"
+    },
+    {
+      "txn_id": "T0184",
+      "date": "2024-08-09",
+      "amount": "12169.70",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/KAVITA RAO/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "KAVITA RAO"
+    },
+    {
+      "txn_id": "T0083",
+      "date": "2024-08-29",
+      "amount": "1100.80",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/LEARNWELL INSTITUTE/INV1406/DATED 29-AUG-2024",
+      "counterparty_raw": "LEARNWELL INSTITUTE"
+    },
+    {
+      "txn_id": "T0160",
+      "date": "2024-08-19",
+      "amount": "1395.30",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/VIKRAM SINGH",
+      "counterparty_raw": "VIKRAM SINGH"
+    },
+    {
+      "txn_id": "T0097",
+      "date": "2024-08-28",
+      "amount": "346.69",
+      "direction": "debit",
+      "narration": "IMPS/YES/ADPULSE MEDIA/INV5920/DATED 28-AUG-2024",
+      "counterparty_raw": "ADPULSE MEDIA"
+    },
+    {
+      "txn_id": "T0086",
+      "date": "2024-08-08",
+      "amount": "543.16",
+      "direction": "credit",
+      "narration": "RTGS/SBI/SPARKLINE CONSULTING/INV8541/DATED 08-AUG-2024",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0089",
+      "date": "2024-08-13",
+      "amount": "1801.31",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/MANOJ PILLAI/CONSULTING",
+      "counterparty_raw": "MANOJ PILLAI"
+    },
+    {
+      "txn_id": "T0163",
+      "date": "2024-08-10",
+      "amount": "1848.23",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/8765432109/BLUEWAVE",
+      "counterparty_raw": "BLUEWAVE"
+    },
+    {
+      "txn_id": "T0138",
+      "date": "2024-08-19",
+      "amount": "92966.05",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/DELL TECHNOLOGIES INDIA/PO832/PRINTER UNIT",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0115",
+      "date": "2024-08-25",
+      "amount": "823.78",
+      "direction": "credit",
+      "narration": "NEFT/AXIS/GREENLEAF TRADERS/INV5543/DATED 25-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0039",
+      "date": "2024-08-25",
+      "amount": "1933.47",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/GST DEPARTMENT/INV4295/DATED 25-AUG-2024",
+      "counterparty_raw": "GST DEPARTMENT"
+    },
+    {
+      "txn_id": "T0126",
+      "date": "2024-08-11",
+      "amount": "1309.67",
+      "direction": "credit",
+      "narration": "NEFT/SBI/SWIGGY DESIGNS PVT LTD/INV3704/DATED 11-AUG-2024/GST INCL",
+      "counterparty_raw": "SWIGGY DESIGNS PVT LTD"
+    },
+    {
+      "txn_id": "T0077",
+      "date": "2024-08-14",
+      "amount": "1490.38",
+      "direction": "debit",
+      "narration": "NEFT/YES/LENOVO INDIA/INV1158/DATED 14-AUG-2024",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0073",
+      "date": "2024-08-28",
+      "amount": "712.01",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/SUNIL D'SOUZA/CONSULTING",
+      "counterparty_raw": "SUNIL D'SOUZA"
+    },
+    {
+      "txn_id": "T0001",
+      "date": "2024-08-01",
+      "amount": "1963.93",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9001122334/RAVI KUMAR/CONSULTING",
+      "counterparty_raw": "RAVI KUMAR"
+    },
+    {
+      "txn_id": "T0194",
+      "date": "2024-08-03",
+      "amount": "8.78",
+      "direction": "debit",
+      "narration": "DEBIT/SBI/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "SBI BANK"
+    },
+    {
+      "txn_id": "T0130",
+      "date": "2024-08-13",
+      "amount": "1071.59",
+      "direction": "credit",
+      "narration": "NEFT/AXIS/SWIGGY DESIGNS PVT LTD/INV4467/DATED 13-AUG-2024/GST INCL",
+      "counterparty_raw": "SWIGGY DESIGNS PVT LTD"
+    },
+    {
+      "txn_id": "T0088",
+      "date": "2024-08-28",
+      "amount": "201.98",
+      "direction": "debit",
+      "narration": "RTGS/AXIS/ADPULSE MEDIA/INV5573/DATED 28-AUG-2024",
+      "counterparty_raw": "ADPULSE MEDIA"
+    },
+    {
+      "txn_id": "T0164",
+      "date": "2024-08-28",
+      "amount": "52.15",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/OM ENTERPRISES",
+      "counterparty_raw": "OM ENTERPRISES"
+    },
+    {
+      "txn_id": "T0071",
+      "date": "2024-08-29",
+      "amount": "300.58",
+      "direction": "debit",
+      "narration": "RTGS/HDFC/PAPERTRAIL SUPPLIES/INV3546/DATED 29-AUG-2024",
+      "counterparty_raw": "PAPERTRAIL SUPPLIES"
+    },
+    {
+      "txn_id": "T0018",
+      "date": "2024-08-08",
+      "amount": "2174.30",
+      "direction": "debit",
+      "narration": "RTGS/HDFC/STATIONERY HUB/INV1525/DATED 08-AUG-2024",
+      "counterparty_raw": "STATIONERY HUB"
+    },
+    {
+      "txn_id": "T0035",
+      "date": "2024-08-31",
+      "amount": "226.45",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/CARE FOUNDATION TRUST/INV2403/DATED 31-AUG-2024",
+      "counterparty_raw": "CARE FOUNDATION TRUST"
+    },
+    {
+      "txn_id": "T0170",
+      "date": "2024-08-30",
+      "amount": "1180.56",
+      "direction": "credit",
+      "narration": "IMPS/SBI/GLOBALINK TRADERS/INV-9304",
+      "counterparty_raw": "GLOBALINK TRADERS"
+    },
+    {
+      "txn_id": "T0154",
+      "date": "2024-08-13",
+      "amount": "474250.50",
+      "direction": "credit",
+      "narration": "IMPS/ICICI/SELF TRANSFER CURRENT/SELF/OWN ACCOUNT",
+      "counterparty_raw": "SELF TRANSFER CURRENT"
+    },
+    {
+      "txn_id": "T0049",
+      "date": "2024-08-22",
+      "amount": "1732.99",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/PRIYA NAIR/CONSULTING",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0099",
+      "date": "2024-08-05",
+      "amount": "522.89",
+      "direction": "debit",
+      "narration": "IMPS/KOTAK/DELHIVERY LOGISTICS/INV7888/DATED 05-AUG-2024",
+      "counterparty_raw": "DELHIVERY LOGISTICS"
+    },
+    {
+      "txn_id": "T0038",
+      "date": "2024-08-28",
+      "amount": "1610.14",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/FRESHWORKS SAAS/INV7932/DATED 28-AUG-2024",
+      "counterparty_raw": "FRESHWORKS SAAS"
+    },
+    {
+      "txn_id": "T0177",
+      "date": "2024-08-26",
+      "amount": "76374.67",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/PRIYA NAIR/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "PRIYA NAIR"
+    },
+    {
+      "txn_id": "T0117",
+      "date": "2024-08-23",
+      "amount": "942.83",
+      "direction": "credit",
+      "narration": "NEFT/HDFC/GREENLEAF TRADERS/INV4841/DATED 23-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0063",
+      "date": "2024-08-11",
+      "amount": "2470.27",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9001122334/DEEPAK IYER/CONSULTING",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0121",
+      "date": "2024-08-14",
+      "amount": "251.60",
+      "direction": "credit",
+      "narration": "NEFT/SBI/DEEPAK IYER/INV4388/DATED 14-AUG-2024/GST INCL",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0124",
+      "date": "2024-08-18",
+      "amount": "1748.35",
+      "direction": "credit",
+      "narration": "NEFT/SBI/SPARKLINE CONSULTING/INV4613/DATED 18-AUG-2024/GST INCL",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0107",
+      "date": "2024-08-02",
+      "amount": "816.37",
+      "direction": "credit",
+      "narration": "NEFT/HDFC/BRIGHTPATH CONSULTING LLP/INV8784/DATED 02-AUG-2024/GST INCL",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0070",
+      "date": "2024-08-30",
+      "amount": "1759.03",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/LENOVO INDIA/INV2697/DATED 30-AUG-2024",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0131",
+      "date": "2024-08-11",
+      "amount": "93606.82",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/LENOVO INDIA/PO870/OFFICE CHAIR SET",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0075",
+      "date": "2024-08-27",
+      "amount": "745.30",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/MANOJ PILLAI/CONSULTING",
+      "counterparty_raw": "MANOJ PILLAI"
+    },
+    {
+      "txn_id": "T0200",
+      "date": "2024-08-20",
+      "amount": "19.46",
+      "direction": "debit",
+      "narration": "DEBIT/AXIS/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "AXIS BANK"
+    },
+    {
+      "txn_id": "T0040",
+      "date": "2024-08-22",
+      "amount": "1723.61",
+      "direction": "debit",
+      "narration": "RTGS/SBI/OFFICE MART SUPPLIES/INV7118/DATED 22-AUG-2024",
+      "counterparty_raw": "OFFICE MART SUPPLIES"
+    },
+    {
+      "txn_id": "T0166",
+      "date": "2024-08-27",
+      "amount": "191.29",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/KRISHNA ASSOCIATES",
+      "counterparty_raw": "KRISHNA ASSOCIATES"
+    },
+    {
+      "txn_id": "T0031",
+      "date": "2024-08-28",
+      "amount": "1659.18",
+      "direction": "debit",
+      "narration": "IMPS/HDFC/GST DEPARTMENT/INV5889/DATED 28-AUG-2024",
+      "counterparty_raw": "GST DEPARTMENT"
+    },
+    {
+      "txn_id": "T0119",
+      "date": "2024-08-08",
+      "amount": "1243.84",
+      "direction": "credit",
+      "narration": "NEFT/ICICI/BRIGHTPATH CONSULTING LLP/INV3503/DATED 08-AUG-2024/GST INCL",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0030",
+      "date": "2024-08-09",
+      "amount": "1332.25",
+      "direction": "debit",
+      "narration": "IMPS/YES/CARE FOUNDATION TRUST/INV3927/DATED 09-AUG-2024",
+      "counterparty_raw": "CARE FOUNDATION TRUST"
+    },
+    {
+      "txn_id": "T0058",
+      "date": "2024-08-02",
+      "amount": "151.44",
+      "direction": "debit",
+      "narration": "IMPS/AXIS/AXIS BANK LOAN CELL/INV8811/DATED 02-AUG-2024",
+      "counterparty_raw": "AXIS BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0024",
+      "date": "2024-08-28",
+      "amount": "307.43",
+      "direction": "credit",
+      "narration": "CR/IMPS/HDFC/BRIGHTPATH CONSULTING LLP/INV3504/DATED 28-AUG-2024",
+      "counterparty_raw": "BRIGHTPATH CONSULTING LLP"
+    },
+    {
+      "txn_id": "T0105",
+      "date": "2024-08-21",
+      "amount": "1643.35",
+      "direction": "debit",
+      "narration": "NEFT/YES/ADANI ELECTRICITY/INV6491/DATED 21-AUG-2024",
+      "counterparty_raw": "ADANI ELECTRICITY"
+    },
+    {
+      "txn_id": "T0189",
+      "date": "2024-08-19",
+      "amount": "290.66",
+      "direction": "debit",
+      "narration": "NEFT/ICICI/8123456789",
+      "counterparty_raw": ""
+    },
+    {
+      "txn_id": "T0004",
+      "date": "2024-08-03",
+      "amount": "593.14",
+      "direction": "credit",
+      "narration": "IMPS/HDFC/ZOMATO INDIA/INV4811/DATED 03-AUG-2024",
+      "counterparty_raw": "ZOMATO INDIA"
+    },
+    {
+      "txn_id": "T0142",
+      "date": "2024-08-28",
+      "amount": "100474.16",
+      "direction": "debit",
+      "narration": "NEFT/HDFC/LENOVO INDIA/PO208/PRINTER UNIT",
+      "counterparty_raw": "LENOVO INDIA"
+    },
+    {
+      "txn_id": "T0080",
+      "date": "2024-08-12",
+      "amount": "2376.62",
+      "direction": "credit",
+      "narration": "CR/RTGS/AXIS/SPARKLINE CONSULTING/INV1653/DATED 12-AUG-2024",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0041",
+      "date": "2024-08-15",
+      "amount": "337.20",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/CARE FOUNDATION TRUST/INV5061/DATED 15-AUG-2024",
+      "counterparty_raw": "CARE FOUNDATION TRUST"
+    },
+    {
+      "txn_id": "T0182",
+      "date": "2024-08-17",
+      "amount": "55296.93",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/8765432109/MANOJ PILLAI/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "MANOJ PILLAI"
+    },
+    {
+      "txn_id": "T0062",
+      "date": "2024-08-14",
+      "amount": "1743.26",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/7890012345/KAVITA RAO/CONSULTING",
+      "counterparty_raw": "KAVITA RAO"
+    },
+    {
+      "txn_id": "T0156",
+      "date": "2024-08-17",
+      "amount": "921.13",
+      "direction": "credit",
+      "narration": "IMPS/KOTAK/SWIGGY INTERIOR DESIGNS/INV-9435",
+      "counterparty_raw": "SWIGGY INTERIOR DESIGNS"
+    },
+    {
+      "txn_id": "T0162",
+      "date": "2024-08-18",
+      "amount": "351.82",
+      "direction": "credit",
+      "narration": "UPI/PAYTM/9876543210/APEX",
+      "counterparty_raw": "APEX"
+    },
+    {
+      "txn_id": "T0008",
+      "date": "2024-08-04",
+      "amount": "263.12",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/JIO FIBER/INV7224/DATED 04-AUG-2024",
+      "counterparty_raw": "JIO FIBER"
+    },
+    {
+      "txn_id": "T0032",
+      "date": "2024-08-07",
+      "amount": "420.65",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/ICICI LOMBARD INSURANCE/INV7126/DATED 07-AUG-2024",
+      "counterparty_raw": "ICICI LOMBARD INSURANCE"
+    },
+    {
+      "txn_id": "T0125",
+      "date": "2024-08-09",
+      "amount": "1407.16",
+      "direction": "credit",
+      "narration": "NEFT/ICICI/GREENLEAF TRADERS/INV8956/DATED 09-AUG-2024/GST INCL",
+      "counterparty_raw": "GREENLEAF TRADERS"
+    },
+    {
+      "txn_id": "T0179",
+      "date": "2024-08-27",
+      "amount": "21931.64",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/SURESH MENON/PROFESSIONAL FEES TDS DEDUCTED",
+      "counterparty_raw": "SURESH MENON"
+    },
+    {
+      "txn_id": "T0113",
+      "date": "2024-08-11",
+      "amount": "1428.00",
+      "direction": "credit",
+      "narration": "NEFT/KOTAK/DEEPAK IYER/INV9270/DATED 11-AUG-2024/GST INCL",
+      "counterparty_raw": "DEEPAK IYER"
+    },
+    {
+      "txn_id": "T0074",
+      "date": "2024-08-29",
+      "amount": "2400.68",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/RAPIDFIX SERVICES/INV1832/DATED 29-AUG-2024",
+      "counterparty_raw": "RAPIDFIX SERVICES"
+    },
+    {
+      "txn_id": "T0034",
+      "date": "2024-08-30",
+      "amount": "971.53",
+      "direction": "credit",
+      "narration": "CR/NEFT/HDFC/SWIGGY DESIGNS PVT LTD/INV6038/DATED 30-AUG-2024",
+      "counterparty_raw": "SWIGGY DESIGNS PVT LTD"
+    },
+    {
+      "txn_id": "T0141",
+      "date": "2024-08-18",
+      "amount": "101869.90",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/DELL TECHNOLOGIES INDIA/PO170/OFFICE CHAIR SET",
+      "counterparty_raw": "DELL TECHNOLOGIES INDIA"
+    },
+    {
+      "txn_id": "T0069",
+      "date": "2024-08-20",
+      "amount": "2135.76",
+      "direction": "credit",
+      "narration": "NEFT/AXIS/TRUSTLINE CAPITAL FD/INV9666/DATED 20-AUG-2024",
+      "counterparty_raw": "TRUSTLINE CAPITAL FD"
+    },
+    {
+      "txn_id": "T0053",
+      "date": "2024-08-04",
+      "amount": "152.61",
+      "direction": "debit",
+      "narration": "NEFT/KOTAK/HDFC BANK LOAN CELL/INV9856/DATED 04-AUG-2024",
+      "counterparty_raw": "HDFC BANK LOAN CELL"
+    },
+    {
+      "txn_id": "T0014",
+      "date": "2024-08-06",
+      "amount": "990.40",
+      "direction": "debit",
+      "narration": "NEFT/AXIS/SELF TRANSFER SAVINGS/INV6820/DATED 06-AUG-2024",
+      "counterparty_raw": "SELF TRANSFER SAVINGS"
+    },
+    {
+      "txn_id": "T0195",
+      "date": "2024-08-11",
+      "amount": "3.98",
+      "direction": "debit",
+      "narration": "DEBIT/AXIS/BANK CHARGES GST INCL/SERVICE CHARGE",
+      "counterparty_raw": "AXIS BANK"
+    },
+    {
+      "txn_id": "T0114",
+      "date": "2024-08-15",
+      "amount": "551.32",
+      "direction": "credit",
+      "narration": "NEFT/KOTAK/SPARKLINE CONSULTING/INV8777/DATED 15-AUG-2024/GST INCL",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    },
+    {
+      "txn_id": "T0161",
+      "date": "2024-08-10",
+      "amount": "616.33",
+      "direction": "debit",
+      "narration": "UPI/PAYTM/9876543210/STARDOM ENTERTAINMENT",
+      "counterparty_raw": "STARDOM ENTERTAINMENT"
+    },
+    {
+      "txn_id": "T0128",
+      "date": "2024-08-19",
+      "amount": "142.83",
+      "direction": "credit",
+      "narration": "NEFT/KOTAK/SPARKLINE CONSULTING/INV2375/DATED 19-AUG-2024/GST INCL",
+      "counterparty_raw": "SPARKLINE CONSULTING"
+    }
+  ]
+}
