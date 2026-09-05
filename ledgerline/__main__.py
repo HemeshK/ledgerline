@@ -1,7 +1,7 @@
 import typer
 from rich.console import Console
 
-from . import config, data_loader, report as report_mod, storage
+from . import classifier, config, data_loader, report as report_mod, storage
 from .pipeline import run_pipeline
 from .rules import RuleTier
 
@@ -28,7 +28,23 @@ def run() -> None:
     # Read before the run: corrections seed this, so it changes between runs.
     payee_entries = storage.count_payees(conn)
 
-    tiers = [RuleTier(accounts, conn)]
+    rule_tier = RuleTier(accounts, conn)
+
+    # Tier 1 runs alone first so its confident postings can serve as tier 2's
+    # training labels. Training on truth.json instead would hand the classifier
+    # answers the pipeline never earned.
+    tier1_entries = run_pipeline(
+        batch.transactions, [rule_tier], config.CONFIDENCE_THRESHOLD
+    )
+    texts, labels, vendors = classifier.build_training_set(
+        batch.transactions, tier1_entries, batch.train_vendors
+    )
+    model = classifier.train(texts, labels)
+    classifier.save_model(model, config.MODEL_PATH)
+    training = classifier.describe_training(labels, vendors)
+
+    classifier_tier = classifier.ClassifierTier(model, len(labels))
+    tiers = [rule_tier, classifier_tier]
     entries = run_pipeline(batch.transactions, tiers, config.CONFIDENCE_THRESHOLD)
     storage.save_entries(conn, entries)
 
@@ -37,10 +53,14 @@ def run() -> None:
         entries,
         truth,
         notes=[
-            "only tier 1 (rules) is built; tiers 2-3 land in later phases, so "
-            "everything rules cannot resolve stays in the exception queue",
+            "tiers 1-2 are built; tier 3 (LLM) lands in phase 5, so what "
+            "neither rules nor the classifier can resolve stays in the queue",
         ],
         payee_memory_entries=payee_entries,
+        train_vendors=batch.train_vendors,
+        heldout_vendors=batch.heldout_vendors,
+        classifier_training=training,
+        classifier_predictions=classifier_tier.predictions,
     )
     report_mod.render(result, console)
     report_mod.write_json(result, config.REPORT_PATH)

@@ -9,5 +9,6 @@ TRUTH_PATH = DATA_DIR / "truth.json"
 
 DB_PATH = ROOT / "ledgerline.db"
 REPORT_PATH = ROOT / "report.json"
+MODEL_PATH = ROOT / "model.joblib"
 
 CONFIDENCE_THRESHOLD = 0.60

@@ -78,6 +78,45 @@ class ErrorRow(BaseModel):
     undecidable: bool = False
 
 
+class ClassCount(BaseModel):
+    account_code: str
+    examples: int
+
+
+class ClassifierTraining(BaseModel):
+    """What tier 2 actually learned from. Made explicit because with this many
+    accounts and a small batch, several classes carry only a handful of
+    examples and an accuracy number alone would hide that."""
+
+    label_source: str
+    rows: int
+    classes: int
+    vendors: int
+    per_class: list[ClassCount] = Field(default_factory=list)
+    min_examples: int = 0
+    single_example_classes: int = 0
+
+
+class VendorSplitStats(BaseModel):
+    """Accuracy split by whether the counterparty was in the training vendor
+    list. Held-out vendors are names the classifier has genuinely never seen.
+
+    Measured over every row the classifier scored, not only rows that cleared
+    the confidence gate, so the model's own quality stays visible even when the
+    gate correctly refuses to post any of its predictions."""
+
+    bucket: str
+    scored: int
+    correct: int
+    accuracy: Optional[float] = None
+
+
+class ConfusionPair(BaseModel):
+    actual: str
+    predicted: str
+    count: int
+
+
 class FlaggedRow(BaseModel):
     """A row sent to the exception queue, with the reason a human acts on."""
 
@@ -110,6 +149,11 @@ class RunReport(BaseModel):
     per_method: list[MethodStats] = Field(default_factory=list)
     errors: list[ErrorRow] = Field(default_factory=list)
     flagged_rows: list[FlaggedRow] = Field(default_factory=list)
+    classifier_training: Optional[ClassifierTraining] = None
+    classifier_scored: int = 0
+    classifier_posted: int = 0
+    classifier_vendor_split: list[VendorSplitStats] = Field(default_factory=list)
+    classifier_confusions: list[ConfusionPair] = Field(default_factory=list)
     llm_calls: int = 0
     # Payee memory grows as humans correct rows, so runs stop being identical
     # once it is warm. Recording its size makes that visible in the report.
