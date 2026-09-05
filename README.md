@@ -117,6 +117,8 @@ Python · scikit-learn · Gemini API · SQLite · pydantic · FastAPI · pytest
 
 **Deliberately out of scope for v1**, and noted here so the omissions read as choices rather than gaps: a depreciation and accruals scheduler, settlement fan-out (commission / reserve / payout), and a ratio and cash-flow forecasting layer. Each of these consumes the ledger this project produces, and none of them is meaningful until the categorisation underneath is measurably correct.
 
+Also out of scope: a **shadow mode** in which tier 3 re-scores a sample of rows tier 1 already posted, to catch confidently-wrong rule decisions. The cascade stops at the first tier that clears the confidence gate, so a rule that is confidently wrong — a printer posted to office supplies rather than equipment — is never revisited by a tier that would know better. Sampling those rows would measure how often that happens.
+
 ## Design notes
 
 The classifier sits behind a single `classify(transaction) -> (account_code, confidence, reason)` interface. Swapping the synthetic-trained baseline for one trained on real ledger history is one class implementation and a config change.

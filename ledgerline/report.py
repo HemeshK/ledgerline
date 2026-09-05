@@ -22,6 +22,7 @@ from .models import (
     LedgerEntry,
     MethodStats,
     RunReport,
+    Statements,
     Transaction,
     VendorSplitStats,
 )
@@ -49,6 +50,7 @@ def build_report(
     llm_calls: int = 0,
     llm_cache_hits: int = 0,
     llm_skipped_reason: Optional[str] = None,
+    statements: Optional[Statements] = None,
 ) -> RunReport:
     narrations = {t.txn_id: t.narration for t in transactions}
     counterparties = {t.txn_id: normalize(t.counterparty_raw) for t in transactions}
@@ -79,6 +81,11 @@ def build_report(
         return per_method[method]
 
     for e in entries:
+        # Derived tax lines carry no classification decision of their own, so
+        # scoring them would double-count the transaction and mark the tax
+        # account as a wrong answer against the primary line's ground truth.
+        if e.line_type != "primary":
+            continue
         actual = truth.get(e.txn_id)
         is_undecidable = actual is None
         stats = bucket(e.method)
@@ -172,6 +179,13 @@ def build_report(
     capex_probe = _capex_probe(transactions, entries, truth, narrations)
 
     notes = list(notes or [])
+    notes.append(
+        "tier accuracies above are measured on NON-COMPARABLE subsets: tier 1 "
+        "sees every row, while tiers 2 and 3 see only what the tiers above "
+        "them declined - which is the harder residue. A head-to-head must not "
+        "present these as like-for-like; to compare tiers fairly, run each "
+        "over the same rows."
+    )
     notes.extend(_vendor_split_findings(vendor_split, "classifier"))
     if llm_predictions:
         notes.extend(_vendor_split_findings(llm_split, "LLM"))
@@ -194,6 +208,8 @@ def build_report(
         errors=errors,
         flagged_rows=flagged_rows,
         classifier_training=classifier_training,
+        statements=statements,
+        gst_split_lines=sum(1 for e in entries if e.line_type == "tax"),
         classifier_scored=len(classifier_predictions or {}),
         classifier_posted=next(
             (m.attempted for m in method_stats if m.method == "classifier"), 0
@@ -268,7 +284,11 @@ def _capex_probe(
     truth: dict[str, Optional[str]],
     narrations: dict[str, str],
 ) -> list[CapexProbeRow]:
-    posted = {e.txn_id: e for e in entries if e.status == "posted"}
+    posted = {
+        e.txn_id: e
+        for e in entries
+        if e.status == "posted" and e.line_type == "primary"
+    }
     rows = []
     for txn in transactions:
         if truth.get(txn.txn_id) != CAPEX_ACCOUNT:
@@ -538,6 +558,9 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
         console.print(errs)
         console.print()
 
+    if report.statements:
+        _render_statements(report.statements, report.gst_split_lines, console)
+
     if report.flagged_rows:
         shown = report.flagged_rows[:FLAGGED_PREVIEW]
         queue = Table(
@@ -558,6 +581,69 @@ def render(report: RunReport, console: Optional[Console] = None) -> None:
 
     for note in report.notes:
         console.print(f"note: {note}")
+
+
+def _money(value) -> str:
+    return f"{value:,.2f}"
+
+
+def _render_statements(
+    statements: Statements, gst_split_lines: int, console: Console
+) -> None:
+    period = ""
+    if statements.period_start and statements.period_end:
+        period = f" {statements.period_start} to {statements.period_end}"
+
+    pnl = Table(
+        title=f"Profit & loss{period}", title_justify="left", show_edge=False
+    )
+    pnl.add_column("account")
+    pnl.add_column("name", max_width=32)
+    pnl.add_column("lines", justify="right")
+    pnl.add_column("amount", justify="right")
+    for family in ("revenue", "expense"):
+        for row in statements.pnl:
+            if row.family != family:
+                continue
+            pnl.add_row(
+                row.account_code, row.account_name, str(row.lines), _money(row.amount)
+            )
+        total = (
+            statements.revenue_total
+            if family == "revenue"
+            else statements.expense_total
+        )
+        pnl.add_row("", f"total {family}", "", _money(total), style="bold")
+    pnl.add_row("", "net", "", _money(statements.net), style="bold")
+    console.print(pnl)
+    console.print()
+
+    bs = Table(title="Balance sheet", title_justify="left", show_edge=False)
+    bs.add_column("account")
+    bs.add_column("name", max_width=32)
+    bs.add_column("lines", justify="right")
+    bs.add_column("amount", justify="right")
+    for family in ("asset", "liability", "equity"):
+        for row in statements.balance_sheet:
+            if row.family != family:
+                continue
+            bs.add_row(
+                row.account_code, row.account_name, str(row.lines), _money(row.amount)
+            )
+        total = {
+            "asset": statements.asset_total,
+            "liability": statements.liability_total,
+            "equity": statements.equity_total,
+        }[family]
+        bs.add_row("", f"total {family}", "", _money(total), style="bold")
+    console.print(bs)
+    console.print()
+    console.print(
+        f"{gst_split_lines} GST line(s) split out of tax-inclusive amounts. "
+        "These statements summarise the classified side of each transaction "
+        "only; the contra bank line is not recorded, so this does not balance."
+    )
+    console.print()
 
 
 def write_json(report: RunReport, path: Path) -> None:

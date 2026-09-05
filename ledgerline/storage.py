@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS ledger_entries (
     confidence   REAL NOT NULL,
     method       TEXT NOT NULL,
     reason       TEXT NOT NULL,
-    status       TEXT NOT NULL
+    status       TEXT NOT NULL,
+    line_type    TEXT NOT NULL DEFAULT 'primary'
 );
 CREATE INDEX IF NOT EXISTS idx_ledger_txn ON ledger_entries(txn_id);
 CREATE INDEX IF NOT EXISTS idx_ledger_status ON ledger_entries(status);
@@ -56,8 +57,9 @@ def save_entries(conn: sqlite3.Connection, entries: list[LedgerEntry]) -> None:
     )
     conn.executemany(
         """INSERT INTO ledger_entries
-           (txn_id, account_code, amount, confidence, method, reason, status)
-           VALUES (?, ?, ?, ?, ?, ?, ?)""",
+           (txn_id, account_code, amount, confidence, method, reason, status,
+            line_type)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
         [
             (
                 e.txn_id,
@@ -67,6 +69,7 @@ def save_entries(conn: sqlite3.Connection, entries: list[LedgerEntry]) -> None:
                 e.method,
                 e.reason,
                 e.status,
+                e.line_type,
             )
             for e in entries
         ],
@@ -122,6 +125,7 @@ def load_entries(
             method=r["method"],
             reason=r["reason"],
             status=r["status"],
+            line_type=r["line_type"],
         )
         for r in rows
     ]

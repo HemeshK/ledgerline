@@ -45,7 +45,14 @@ class ClassificationResult(BaseModel):
     reason: str
 
 
+LineType = Literal["primary", "tax"]
+
+
 class LedgerEntry(BaseModel):
+    """A single ledger line. One transaction yields one primary line, plus a
+    derived tax line when the amount is GST-inclusive. Only the primary line
+    carries a classification decision, so only it is scored."""
+
     txn_id: str
     account_code: Optional[str] = None
     amount: Decimal
@@ -53,6 +60,7 @@ class LedgerEntry(BaseModel):
     method: Method
     reason: str
     status: Status
+    line_type: LineType = "primary"
 
 
 class MethodStats(BaseModel):
@@ -117,6 +125,34 @@ class ConfusionPair(BaseModel):
     count: int
 
 
+class StatementLine(BaseModel):
+    account_code: str
+    account_name: str
+    family: Family
+    amount: Decimal
+    lines: int
+
+
+class Statements(BaseModel):
+    """P&L as a group-by over revenue and expense families for the period, and
+    balance-sheet families summed cumulatively.
+
+    This is a categorisation summary, not a balanced double-entry statement:
+    only the category side of each transaction is recorded, never the contra
+    bank line, so assets do not equal liabilities plus equity."""
+
+    period_start: Optional[dt.date] = None
+    period_end: Optional[dt.date] = None
+    pnl: list[StatementLine] = Field(default_factory=list)
+    revenue_total: Decimal = Decimal("0.00")
+    expense_total: Decimal = Decimal("0.00")
+    net: Decimal = Decimal("0.00")
+    balance_sheet: list[StatementLine] = Field(default_factory=list)
+    asset_total: Decimal = Decimal("0.00")
+    liability_total: Decimal = Decimal("0.00")
+    equity_total: Decimal = Decimal("0.00")
+
+
 class CapexProbeRow(BaseModel):
     """Capex-vs-opex rows (truth 1500 Equipment), and which tier ended up
     deciding each one. A tier only sees rows the tiers above it left open, so
@@ -177,6 +213,8 @@ class RunReport(BaseModel):
     llm_undecidable_seen: int = 0
     llm_undecidable_refused: int = 0
     capex_probe: list[CapexProbeRow] = Field(default_factory=list)
+    statements: Optional[Statements] = None
+    gst_split_lines: int = 0
     # Payee memory grows as humans correct rows, so runs stop being identical
     # once it is warm. Recording its size makes that visible in the report.
     payee_memory_entries: int = 0

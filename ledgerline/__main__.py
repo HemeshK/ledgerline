@@ -4,7 +4,16 @@ import typer
 from dotenv import load_dotenv
 from rich.console import Console
 
-from . import classifier, config, data_loader, llm, report as report_mod, storage
+from . import (
+    classifier,
+    config,
+    data_loader,
+    llm,
+    report as report_mod,
+    statements,
+    storage,
+    taxes,
+)
 from .pipeline import run_pipeline
 from .rules import RuleTier
 
@@ -63,7 +72,10 @@ def run() -> None:
         )
 
     entries = run_pipeline(batch.transactions, tiers, config.CONFIDENCE_THRESHOLD)
+    entries = taxes.apply_tax_splits(batch.transactions, entries)
     storage.save_entries(conn, entries)
+
+    books = statements.build_statements(batch.transactions, entries, accounts)
 
     result = report_mod.build_report(
         batch.transactions,
@@ -78,6 +90,7 @@ def run() -> None:
         llm_calls=llm_tier.calls if llm_tier else 0,
         llm_cache_hits=llm_tier.cache_hits if llm_tier else 0,
         llm_skipped_reason=llm_skipped_reason,
+        statements=books,
     )
     report_mod.render(result, console)
     report_mod.write_json(result, config.REPORT_PATH)
